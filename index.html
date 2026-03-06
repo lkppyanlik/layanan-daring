@@ -183,7 +183,14 @@ nav a:hover{background:var(--blue-light);color:var(--blue);}
 .link-item{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;text-decoration:none;transition:border-color .18s,background .18s;}
 .link-item:hover{border-color:var(--blue);background:var(--blue-light);}
 .link-item-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.li-zoom{background:#E8F0FB;}
+.li-teams{background:#E8EEFB;}
+.reg-instruction{display:flex;flex-direction:column;gap:14px;margin-bottom:20px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);padding:18px;}
+.reg-step-item{display:flex;align-items:flex-start;gap:12px;font-size:13.5px;color:var(--text-secondary);line-height:1.55;}
+.reg-step-item strong{display:block;font-size:13.5px;font-weight:700;color:var(--text-primary);margin-bottom:2px;}
+.reg-step-item p{margin:0;font-size:13px;}
+.reg-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:var(--white);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.btn-open-form{text-decoration:none;justify-content:center;}
+.btn-confirm{margin-top:10px;}
 .li-wa{background:#D6F0E4;}
 .link-item-label{font-size:13px;font-weight:600;color:var(--text-primary);display:block;}
 .link-item-sub{font-size:12px;color:var(--text-muted);}
@@ -260,86 +267,64 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
 <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal">
     <div class="modal-header">
-      <h2 id="modalTitle">📋 Daftar Hadir Layanan Publik</h2>
-      <p>Wajib diisi sebelum mengakses layanan daring LKPP</p>
+      <h2 id="modalTitle">&#x1F4CB; Registrasi Antrian Layanan</h2>
+      <p>Isi formulir registrasi, lalu kembali ke sini untuk membuka akses</p>
       <button class="modal-close" onclick="closeModal()" aria-label="Tutup">&#x2715;</button>
     </div>
     <div class="modal-body">
       <!-- Progress -->
       <div class="modal-steps">
-        <div class="mstep active" id="mstep1"><div class="mstep-num">1</div><span>Isi Data</span></div>
+        <div class="mstep active" id="mstep1"><div class="mstep-num">1</div><span>Isi Formulir</span></div>
         <div class="mstep-line"></div>
         <div class="mstep" id="mstep2"><div class="mstep-num">2</div><span>Akses Layanan</span></div>
       </div>
-      <!-- Step 1: Form -->
+      <!-- Step 1: Instruksi + tombol ke Google Form -->
       <div id="step1Form">
-        <div class="form-row">
-          <div class="form-group" id="fg-nama">
-            <label class="form-label" for="f-nama">Nama Lengkap <span class="req">*</span></label>
-            <input class="form-input" type="text" id="f-nama" placeholder="Nama Anda" autocomplete="name">
-            <div class="form-error" id="err-nama">Nama wajib diisi</div>
+        <div class="reg-instruction">
+          <div class="reg-step-item">
+            <div class="reg-num">1</div>
+            <div>
+              <strong>Buka formulir registrasi</strong>
+              <p>Klik tombol di bawah &mdash; formulir akan terbuka di tab baru. Isi seluruh data dengan lengkap.</p>
+            </div>
           </div>
-          <div class="form-group" id="fg-instansi">
-            <label class="form-label" for="f-instansi">Instansi / Lembaga <span class="req">*</span></label>
-            <input class="form-input" type="text" id="f-instansi" placeholder="Nama instansi Anda" autocomplete="organization">
-            <div class="form-error" id="err-instansi">Instansi wajib diisi</div>
+          <div class="reg-step-item">
+            <div class="reg-num">2</div>
+            <div>
+              <strong>Kembali ke halaman ini</strong>
+              <p>Setelah formulir terkirim, kembali ke tab ini dan klik tombol <em>&ldquo;Sudah Daftar&rdquo;</em> di bawah.</p>
+            </div>
+          </div>
+          <div class="reg-step-item">
+            <div class="reg-num">3</div>
+            <div>
+              <strong>Akses tautan layanan</strong>
+              <p>Tautan Microsoft Teams dan WhatsApp unit yang dituju akan langsung terbuka.</p>
+            </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="f-jabatan">Jabatan</label>
-            <input class="form-input" type="text" id="f-jabatan" placeholder="Jabatan Anda" autocomplete="organization-title">
-          </div>
-          <div class="form-group" id="fg-hp">
-            <label class="form-label" for="f-hp">Kontak / No. HP <span class="req">*</span></label>
-            <input class="form-input" type="tel" id="f-hp" placeholder="08xxxxxxxxxx" autocomplete="tel">
-            <div class="form-error" id="err-hp">Nomor kontak wajib diisi</div>
-          </div>
-        </div>
-        <div class="form-group" id="fg-layanan">
-          <label class="form-label" for="f-layanan">Unit Layanan yang Dituju <span class="req">*</span></label>
-          <select class="form-input form-select" id="f-layanan">
-            <option value="">— Pilih unit layanan —</option>
-            <option value="Pusat Pelatihan SDM Pengadaan Barang/Jasa">Pusat Pelatihan SDM Pengadaan Barang/Jasa</option>
-            <option value="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Umum">Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Umum</option>
-            <option value="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Khusus">Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Khusus</option>
-            <option value="Dit. Pengembangan Iklim Usaha &amp; Kerjasama Internasional">Dit. Pengembangan Iklim Usaha &amp; Kerjasama Internasional</option>
-            <option value="Dit. Perencanaan Transformasi, Pemantauan &amp; Evaluasi Pengadaan">Dit. Perencanaan Transformasi, Pemantauan &amp; Evaluasi Pengadaan</option>
-            <option value="Dit. Sistem Pengadaan Digital">Dit. Sistem Pengadaan Digital</option>
-            <option value="Dit. Pasar Digital Pengadaan">Dit. Pasar Digital Pengadaan</option>
-            <option value="Dit. Pengembangan Profesi &amp; Kelembagaan">Dit. Pengembangan Profesi &amp; Kelembagaan</option>
-            <option value="Dit. Sertifikasi Profesi">Dit. Sertifikasi Profesi</option>
-            <option value="Dit. Advokasi Pemerintah Pusat">Dit. Advokasi Pemerintah Pusat</option>
-            <option value="Dit. Advokasi Pemerintah Daerah">Dit. Advokasi Pemerintah Daerah</option>
-            <option value="Dit. Penanganan Permasalahan Hukum">Dit. Penanganan Permasalahan Hukum</option>
-            <option value="Biro Hubungan Masyarakat dan Umum">Biro Hubungan Masyarakat dan Umum</option>
-          </select>
-          <div class="form-error" id="err-layanan">Pilih unit layanan yang dituju</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="f-keperluan">Keperluan / Topik Konsultasi</label>
-          <input class="form-input" type="text" id="f-keperluan" placeholder="Singkat, misal: konsultasi kontrak pengadaan">
-        </div>
-        <button class="btn-submit" id="btnSubmit" onclick="submitForm()">
-          <span id="btnText">Kirim &amp; Buka Akses Layanan</span>
-          <div class="spinner" id="spinner"></div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScBf7Ua8lno0HbZVkwuksx5CsfLitkj0-VlKo_0O-PM5E2WuA/viewform" target="_blank" rel="noopener" class="btn-submit btn-open-form" id="btnOpenForm" onclick="onFormOpened()">
+          &#x1F4DD; Buka Formulir Registrasi
+        </a>
+        <button class="btn-submit btn-confirm" id="btnConfirm" onclick="onConfirmDone()" style="display:none;background:var(--green);">
+          &#x2705; Sudah Daftar &mdash; Buka Akses Layanan
         </button>
-        <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:10px;">Data Anda hanya digunakan untuk keperluan administrasi layanan publik LKPP</p>
+        <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:12px;">Formulir dibuka di tab baru. Pastikan formulir sudah terkirim sebelum mengklik &ldquo;Sudah Daftar&rdquo;.</p>
       </div>
       <!-- Step 2: Links -->
       <div id="step2Links" class="step2">
         <div class="success-banner">
           <div class="success-icon">&#x2705;</div>
           <div class="success-text">
-            <h3>Daftar hadir berhasil tercatat!</h3>
-            <p>Akses layanan di bawah ini sudah terbuka. Status diingat hingga pukul 23.59 hari ini.</p>
+            <h3>Registrasi tercatat &mdash; akses terbuka!</h3>
+            <p>Tautan layanan aktif hingga pukul 23.59 hari ini. Silakan bergabung via Teams atau WA.</p>
           </div>
         </div>
         <div class="link-section">
           <h4 id="linkUnitName">Tautan Layanan</h4>
           <div class="link-list" id="linkList"></div>
         </div>
-        <p class="modal-note">Butuh bantuan? Hubungi PIC atau <a href="/cdn-cgi/l/email-protection#472f222b372322342c072b2c3737692028692e23" style="color:var(--blue);"><span class="__cf_email__" data-cfemail="cca4a9a0bca8a9bfa78ca0a7bcbce2aba3e2a5a8">[email&#160;protected]</span></a></p>
+        <p class="modal-note">Butuh bantuan? Hubungi PIC unit atau <a href="mailto:helpdesk@lkpp.go.id" style="color:var(--blue);">helpdesk@lkpp.go.id</a></p>
       </div>
     </div>
   </div>
@@ -369,7 +354,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
       <a href="#cara-akses">Cara Akses</a>
       <a href="#layanan">Unit Layanan</a>
       <a href="#faq">FAQ</a>
-      <a href="#" onclick="openModal(event)" class="nav-btn">&#x1F4CB; Daftar Hadir</a>
+      <a href="#" onclick="openModal(event)" class="nav-btn">&#x1F4CB; Registrasi Antrian</a>
     </nav>
   </div>
 </header>
@@ -382,10 +367,10 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
     <div class="fade-up">
       <div class="hero-tag">&#x1F54C; Penyesuaian Tugas Kedinasan &mdash; Idul Fitri 1447H</div>
       <h1>Layanan Publik LKPP<br><span>Tetap Hadir Secara Daring</span></h1>
-      <p class="hero-desc">Seluruh layanan publik LKPP beroperasi secara daring selama periode libur nasional. Temukan unit layanan, isi daftar hadir, lalu akses melalui Zoom atau WhatsApp.</p>
+      <p class="hero-desc">Seluruh layanan publik LKPP beroperasi secara daring selama periode libur nasional. Temukan unit layanan, registrasi antrian, lalu akses melalui Microsoft Teams atau WhatsApp.</p>
       <div class="hero-actions">
         <a href="#layanan" class="btn-primary">Lihat Unit Layanan &rarr;</a>
-        <a href="#" onclick="openModal(event)" class="btn-outline">&#x1F4CB; Isi Daftar Hadir</a>
+        <a href="#" onclick="openModal(event)" class="btn-outline">&#x1F4CB; Registrasi Antrian</a>
       </div>
     </div>
     <div class="hero-info fade-up">
@@ -401,7 +386,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
       <div class="info-card">
         <div class="info-label">&#x1F3E2; Unit Layanan</div>
         <div class="info-value">13 Unit Organisasi</div>
-        <div class="info-sub">Zoom &middot; WhatsApp &middot; Daring</div>
+        <div class="info-sub">Teams &middot; WhatsApp &middot; Daring</div>
       </div>
     </div>
   </div>
@@ -423,20 +408,20 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
       <div class="step-card">
         <div class="step-num">02</div>
         <div class="step-pill pill-amber">&#x26A0; Wajib</div>
-        <h4>Isi Daftar Hadir</h4>
-        <p>Klik tombol layanan di kartu unor. Isi formulir daftar hadir yang muncul terlebih dahulu.</p>
+        <h4>Registrasi Antrian</h4>
+        <p>Klik tombol di kartu unit. Isi formulir registrasi yang terbuka di tab baru, lalu kembali ke halaman ini.</p>
       </div>
       <div class="step-card">
         <div class="step-num">03</div>
-        <div class="step-pill pill-neutral">Otomatis</div>
-        <h4>Link Terbuka Setelah Submit</h4>
-        <p>Setelah daftar hadir terisi, tautan Zoom dan WhatsApp akan langsung muncul.</p>
+        <div class="step-pill pill-neutral">Konfirmasi</div>
+        <h4>Klik &ldquo;Sudah Daftar&rdquo;</h4>
+        <p>Setelah formulir terkirim, klik tombol &ldquo;Sudah Daftar&rdquo; untuk membuka tautan Teams dan WhatsApp.</p>
       </div>
       <div class="step-card">
         <div class="step-num">04</div>
         <div class="step-pill pill-green">&#x2713; Selesai</div>
         <h4>Mulai Konsultasi</h4>
-        <p>Bergabung sesuai jadwal. Status terdaftar diingat sistem hingga pukul 23.59 hari ini.</p>
+        <p>Bergabung via Microsoft Teams atau WhatsApp sesuai jadwal. Akses berlaku hingga pukul 23.59 hari ini.</p>
       </div>
     </div>
   </div>
@@ -447,12 +432,12 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
   <div class="section-inner">
     <div class="section-label">Unit Organisasi</div>
     <h2 class="section-title">Pilih Layanan yang Anda Butuhkan</h2>
-    <p class="section-desc">13 unit organisasi LKPP siap melayani. Klik tombol pada kartu layanan untuk membuka daftar hadir dan mendapatkan akses.</p>
+    <p class="section-desc">13 unit organisasi LKPP siap melayani. Klik tombol pada kartu layanan, registrasi antrian, lalu akses via Microsoft Teams atau WhatsApp.</p>
 
     <div class="gate-notice" id="gateNotice">
       <span class="gate-notice-icon">&#x1F512;</span>
-      <span id="gateText">Tautan Zoom dan WhatsApp terkunci. Isi daftar hadir terlebih dahulu untuk membuka akses.</span>
-      <button class="gate-btn" onclick="openModal(event)">&#x1F4CB; Isi Daftar Hadir</button>
+      <span id="gateText">Tautan Teams dan WhatsApp terkunci. Registrasi antrian terlebih dahulu untuk membuka akses.</span>
+      <button class="gate-btn" onclick="openModal(event)">&#x1F4CB; Registrasi Antrian</button>
     </div>
 
     <div class="toolbar">
@@ -473,7 +458,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
 
     <div class="cards-grid" id="cardsGrid">
 
-      <article class="card fade-up" data-cat="pelatihan" data-kw="pelatihan sdm blended fasilitator desa kpbu jabatan fungsional okupasi ppk pokja" data-unit="Pusat Pelatihan SDM Pengadaan Barang/Jasa" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="pelatihan" data-kw="pelatihan sdm blended fasilitator desa kpbu jabatan fungsional okupasi ppk pokja" data-unit="Pusat Pelatihan SDM Pengadaan Barang/Jasa" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F393;</div><div><div class="card-cat">Pelatihan SDM</div><h3>Pusat Pelatihan SDM Pengadaan Barang/Jasa</h3></div></div>
@@ -490,7 +475,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-0"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="kebijakan" data-kw="kebijakan strategi pedoman pengadaan umum diseminasi standar prosedur" data-unit="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Umum" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="kebijakan" data-kw="kebijakan strategi pedoman pengadaan umum diseminasi standar prosedur" data-unit="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Umum" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-md"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F4DC;</div><div><div class="card-cat">Kebijakan Pengadaan</div><h3>Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Umum</h3></div></div>
@@ -505,7 +490,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-1"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="kebijakan" data-kw="kebijakan khusus desa blu blud kpbu kerja sama pemerintah badan usaha pengadaan khusus pendapat" data-unit="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Khusus" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="kebijakan" data-kw="kebijakan khusus desa blu blud kpbu kerja sama pemerintah badan usaha pengadaan khusus pendapat" data-unit="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Khusus" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-md"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F4CB;</div><div><div class="card-cat">Kebijakan Pengadaan</div><h3>Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Khusus</h3></div></div>
@@ -520,7 +505,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-2"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="kebijakan" data-kw="iklim usaha kerjasama internasional pelaku usaha ekosistem" data-unit="Dit. Pengembangan Iklim Usaha &amp; Kerjasama Internasional" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="kebijakan" data-kw="iklim usaha kerjasama internasional pelaku usaha ekosistem" data-unit="Dit. Pengembangan Iklim Usaha &amp; Kerjasama Internasional" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-lt"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F91D;</div><div><div class="card-cat">Iklim Usaha &amp; Kerjasama</div><h3>Dit. Pengembangan Iklim Usaha &amp; Kerjasama Internasional</h3></div></div>
@@ -534,7 +519,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-3"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="digital" data-kw="perencanaan transformasi pemantauan evaluasi monev data pengadaan nasional rup sirup daftar hitam" data-unit="Dit. Perencanaan Transformasi, Pemantauan &amp; Evaluasi Pengadaan" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="digital" data-kw="perencanaan transformasi pemantauan evaluasi monev data pengadaan nasional rup sirup daftar hitam" data-unit="Dit. Perencanaan Transformasi, Pemantauan &amp; Evaluasi Pengadaan" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-md"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F504;</div><div><div class="card-cat">Perencanaan &amp; Evaluasi</div><h3>Dit. Perencanaan Transformasi, Pemantauan &amp; Evaluasi Pengadaan</h3></div></div>
@@ -549,7 +534,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-4"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="digital" data-kw="sistem spse lpse digital elektronik bimtek support call center verifikasi standarisasi admin" data-unit="Dit. Sistem Pengadaan Digital" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="digital" data-kw="sistem spse lpse digital elektronik bimtek support call center verifikasi standarisasi admin" data-unit="Dit. Sistem Pengadaan Digital" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F4BB;</div><div><div class="card-cat">Sistem Digital</div><h3>Dit. Sistem Pengadaan Digital</h3></div></div>
@@ -565,7 +550,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-5"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="digital" data-kw="pasar digital katalog toko daring marketplace epurchasing" data-unit="Dit. Pasar Digital Pengadaan" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="digital" data-kw="pasar digital katalog toko daring marketplace epurchasing" data-unit="Dit. Pasar Digital Pengadaan" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-md"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F6D2;</div><div><div class="card-cat">Pasar Digital</div><h3>Dit. Pasar Digital Pengadaan</h3></div></div>
@@ -580,7 +565,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-6"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="sertif" data-kw="profesi kelembagaan dupak jabatan fungsional ukpbj akreditasi lppbj" data-unit="Dit. Pengembangan Profesi &amp; Kelembagaan" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="sertif" data-kw="profesi kelembagaan dupak jabatan fungsional ukpbj akreditasi lppbj" data-unit="Dit. Pengembangan Profesi &amp; Kelembagaan" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-md"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F3DB;&#xFE0F;</div><div><div class="card-cat">Profesi &amp; Kelembagaan</div><h3>Dit. Pengembangan Profesi &amp; Kelembagaan</h3></div></div>
@@ -595,7 +580,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-7"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="sertif" data-kw="sertifikasi sertifikat kompetensi dasar ujian uji" data-unit="Dit. Sertifikasi Profesi" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="sertif" data-kw="sertifikasi sertifikat kompetensi dasar ujian uji" data-unit="Dit. Sertifikasi Profesi" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-lt"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F4DC;</div><div><div class="card-cat">Sertifikasi Profesi</div><h3>Dit. Sertifikasi Profesi</h3></div></div>
@@ -610,7 +595,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-8"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="advokasi" data-kw="advokasi pemerintah pusat kementerian lembaga bimtek pendapat rekomendasi koreksi diseminasi" data-unit="Dit. Advokasi Pemerintah Pusat" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="advokasi" data-kw="advokasi pemerintah pusat kementerian lembaga bimtek pendapat rekomendasi koreksi diseminasi" data-unit="Dit. Advokasi Pemerintah Pusat" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-md"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x2696;&#xFE0F;</div><div><div class="card-cat">Advokasi</div><h3>Dit. Advokasi Pemerintah Pusat</h3></div></div>
@@ -625,7 +610,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-9"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="advokasi" data-kw="advokasi pemerintah daerah pemda bimtek pendapat rekomendasi koreksi provinsi kabupaten kota sosialisasi" data-unit="Dit. Advokasi Pemerintah Daerah" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="advokasi" data-kw="advokasi pemerintah daerah pemda bimtek pendapat rekomendasi koreksi provinsi kabupaten kota sosialisasi" data-unit="Dit. Advokasi Pemerintah Daerah" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-lt"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F5FA;&#xFE0F;</div><div><div class="card-cat">Advokasi</div><h3>Dit. Advokasi Pemerintah Daerah</h3></div></div>
@@ -640,7 +625,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-10"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="advokasi" data-kw="hukum permasalahan sengketa keterangan ahli penyelesaian PKA kontrak" data-unit="Dit. Penanganan Permasalahan Hukum" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="advokasi" data-kw="hukum permasalahan sengketa keterangan ahli penyelesaian PKA kontrak" data-unit="Dit. Penanganan Permasalahan Hukum" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe stripe-lt"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F4C1;</div><div><div class="card-cat">Permasalahan Hukum</div><h3>Dit. Penanganan Permasalahan Hukum</h3></div></div>
@@ -656,7 +641,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
       </article>
 
       <!-- BIRO HUMAS & UMUM -->
-      <article class="card fade-up" data-cat="humas" data-kw="biro humas hubungan masyarakat umum ppid informasi publik dokumentasi" data-unit="Biro Hubungan Masyarakat dan Umum" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+      <article class="card fade-up" data-cat="humas" data-kw="biro humas hubungan masyarakat umum ppid informasi publik dokumentasi" data-unit="Biro Hubungan Masyarakat dan Umum" data-teams="https://teams.microsoft.com/l/meetup-join/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
         <div class="stripe"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F3E2;</div><div><div class="card-cat">Biro Humas &amp; Umum</div><h3>Biro Hubungan Masyarakat dan Umum</h3></div></div>
@@ -678,11 +663,11 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
 <div class="cta-strip" id="daftar">
   <div>
     <div class="cta-eyebrow">&#x1F4CB; Wajib sebelum mengakses layanan</div>
-    <h2>Belum Mengisi Daftar Hadir?</h2>
-    <p>Isi daftar hadir sekarang untuk membuka akses tautan Zoom dan WhatsApp seluruh unit layanan LKPP.</p>
+    <h2>Belum Registrasi Antrian?</h2>
+    <p>Registrasi terlebih dahulu untuk membuka akses tautan Microsoft Teams dan WhatsApp seluruh unit layanan LKPP.</p>
   </div>
   <div>
-    <button onclick="openModal(event)" class="btn-cta">&#x1F4CB; Isi Daftar Hadir Sekarang</button>
+    <button onclick="openModal(event)" class="btn-cta">&#x1F4CB; Registrasi Antrian Sekarang</button>
     <p class="cta-note">Data digunakan untuk keperluan administrasi layanan publik LKPP</p>
   </div>
 </div>
@@ -694,12 +679,16 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
     <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Mengapa tautan Zoom/WhatsApp terkunci?<span class="faq-icon">+</span></button>
-        <div class="faq-a">Tautan layanan dikunci untuk memastikan seluruh pengguna mengisi daftar hadir terlebih dahulu. Ini penting agar LKPP dapat mencatat dan memantau pengguna layanan publik daring secara akurat.</div>
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Mengapa tautan Teams/WhatsApp terkunci?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Tautan layanan dikunci untuk memastikan seluruh pengguna telah mendaftar melalui formulir registrasi antrian terlebih dahulu. Ini penting agar LKPP dapat mencatat dan memantau peserta layanan publik daring secara akurat.</div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Apakah saya perlu mengisi daftar hadir setiap hari?<span class="faq-icon">+</span></button>
-        <div class="faq-a">Tidak. Setelah mengisi daftar hadir, status terdaftar Anda akan diingat sistem hingga pukul 23.59 pada hari yang sama. Keesokan harinya Anda perlu mengisi kembali.</div>
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Bagaimana alur registrasi antrian?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Klik tombol &ldquo;Registrasi Antrian&rdquo; di kartu unit layanan. Formulir akan terbuka di tab baru &mdash; isi dan kirim formulir tersebut. Setelah itu kembali ke halaman ini dan klik &ldquo;Sudah Daftar&rdquo; untuk membuka tautan Teams dan WhatsApp.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Apakah saya perlu registrasi ulang setiap hari?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Tidak. Setelah mengklik &ldquo;Sudah Daftar&rdquo;, status akses Anda akan diingat sistem hingga pukul 23.59 pada hari yang sama. Keesokan harinya Anda perlu registrasi kembali.</div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Apakah data saya aman?<span class="faq-icon">+</span></button>
@@ -732,7 +721,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
       <h4>Navigasi</h4>
       <a href="#cara-akses">Cara Akses</a>
       <a href="#layanan">Unit Layanan</a>
-      <a href="#daftar">Daftar Hadir</a>
+      <a href="#daftar">Registrasi Antrian</a>
       <a href="#faq">FAQ</a>
     </div>
     <div class="foot-col">
@@ -757,23 +746,21 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
 
 <!-- JS will be inline below, written separately -->
 <script>
-var FORM_ACTION = 'https://docs.google.com/forms/u/0/d/1ITUnSqWA4yjJ5pTQ8rYm73LCGl6darQi1dh06Mx6q4o/formResponse';
-var F = { nama:'entry.715297018', instansi:'entry.1216339565', jabatan:'entry.1540240801', hp:'entry.825133389', layanan:'entry.1369795959', keperluan:'entry.81131949' };
+function showStep1(){document.getElementById('step1Form').style.display='block';document.getElementById('step2Links').style.display='none';document.getElementById('mstep1').className='mstep active';document.getElementById('mstep2').className='mstep';var btnOpen=document.getElementById('btnOpenForm');var btnConf=document.getElementById('btnConfirm');if(btnOpen)btnOpen.style.display='flex';if(btnConf)btnConf.style.display='none';}
+
 function setCookie(n,v,h){var d=new Date();d.setTime(d.getTime()+h*3600000);document.cookie=n+'='+v+';expires='+d.toUTCString()+';path=/;SameSite=Strict';}
 function getCookie(n){var v=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return v?v.pop():null;}
 var isUnlocked=false,pendingIdx=null;
 function checkUnlock(){if(getCookie('lkpp_hadir_done')==='1'){isUnlocked=true;updateGate();}renderButtons();}
-function updateGate(){var n=document.getElementById('gateNotice');if(!n)return;var t=document.getElementById('gateText');var b=n.querySelector('.gate-btn');if(isUnlocked){n.classList.add('unlocked');t.textContent='Daftar hadir sudah terisi. Seluruh tautan layanan telah terbuka.';if(b)b.style.display='none';}}
-function renderButtons(){var cards=document.querySelectorAll('#cardsGrid .card');cards.forEach(function(card,i){var row=document.getElementById('btnRow-'+i);if(!row)return;var zoom=card.dataset.zoom||'#';var wa=card.dataset.wa||'#';if(isUnlocked){var h='';if(zoom!=='#')h+='<a href="'+zoom+'" target="_blank" rel="noopener" class="btn-sm bs-blue">&#x1F3A5; Zoom</a>';if(wa!=='#')h+='<a href="'+wa+'" target="_blank" rel="noopener" class="btn-sm bs-wa">&#x1F4AC; WA</a>';row.innerHTML=h;}else{row.innerHTML='<button class="btn-sm bs-ghost" onclick="openFromCard('+i+')">&#x1F512; Daftar Hadir dulu</button>';}});}
-function openModal(e){if(e)e.preventDefault();pendingIdx=null;showStep1();document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';setTimeout(function(){document.getElementById('f-nama').focus();},120);}
-function openFromCard(idx){pendingIdx=idx;showStep1();var cards=document.querySelectorAll('#cardsGrid .card');var card=cards[idx];document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';setTimeout(function(){if(card){var unit=card.dataset.unit.replace(/&amp;/g,'&');var sel=document.getElementById('f-layanan');for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===unit||sel.options[i].text===unit){sel.selectedIndex=i;break;}}}document.getElementById('f-nama').focus();},120);}
+function updateGate(){var n=document.getElementById('gateNotice');if(!n)return;var t=document.getElementById('gateText');var b=n.querySelector('.gate-btn');if(isUnlocked){n.classList.add('unlocked');t.textContent='Registrasi tercatat. Seluruh tautan Teams dan WhatsApp telah terbuka.';if(b)b.style.display='none';}}
+function renderButtons(){var cards=document.querySelectorAll('#cardsGrid .card');cards.forEach(function(card,i){var row=document.getElementById('btnRow-'+i);if(!row)return;var teams=card.dataset.teams||'#';var wa=card.dataset.wa||'#';if(isUnlocked){var h='';if(teams!=='#')h+='<a href="'+teams+'" target="_blank" rel="noopener" class="btn-sm bs-blue">&#x1F4BB; Teams</a>';if(wa!=='#')h+='<a href="'+wa+'" target="_blank" rel="noopener" class="btn-sm bs-wa">&#x1F4AC; WA</a>';row.innerHTML=h;}else{row.innerHTML='<button class="btn-sm bs-ghost" onclick="openFromCard('+i+')">&#x1F512; Registrasi dulu</button>';}});}
+function openModal(e){if(e)e.preventDefault();pendingIdx=null;showStep1();document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';}
+function openFromCard(idx){pendingIdx=idx;showStep1();document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';}
 function closeModal(){document.getElementById('modalOverlay').classList.remove('active');document.body.style.overflow='';pendingIdx=null;}
+function onFormOpened(){document.getElementById('btnOpenForm').style.display='none';document.getElementById('btnConfirm').style.display='flex';}
+function onConfirmDone(){var now=new Date();var hrs=(new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59)-now)/3600000;setCookie('lkpp_hadir_done','1',hrs);isUnlocked=true;updateGate();renderButtons();showStep2();}
 document.addEventListener('DOMContentLoaded',function(){document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});});
-function showStep1(){document.getElementById('step1Form').style.display='block';document.getElementById('step2Links').style.display='none';document.getElementById('mstep1').className='mstep active';document.getElementById('mstep2').className='mstep';document.querySelectorAll('.form-group').forEach(function(g){g.classList.remove('has-error');});}
-function validate(){var ok=true;var checks=[{id:'f-nama',err:'err-nama',grp:'fg-nama',msg:'Nama wajib diisi'},{id:'f-instansi',err:'err-instansi',grp:'fg-instansi',msg:'Instansi wajib diisi'},{id:'f-hp',err:'err-hp',grp:'fg-hp',msg:'Kontak wajib diisi'},{id:'f-layanan',err:'err-layanan',grp:'fg-layanan',msg:'Pilih unit layanan'}];checks.forEach(function(c){var val=document.getElementById(c.id).value.trim();if(!val){document.getElementById(c.grp).classList.add('has-error');document.getElementById(c.err).textContent=c.msg;ok=false;}});return ok;}
-function submitForm(){document.querySelectorAll('.form-group').forEach(function(g){g.classList.remove('has-error');});if(!validate())return;var btn=document.getElementById('btnSubmit');var txt=document.getElementById('btnText');var spin=document.getElementById('spinner');btn.disabled=true;txt.textContent='Mengirim...';spin.style.display='block';var fd=new FormData();fd.append(F.nama,document.getElementById('f-nama').value.trim());fd.append(F.instansi,document.getElementById('f-instansi').value.trim());fd.append(F.jabatan,document.getElementById('f-jabatan').value.trim());fd.append(F.hp,document.getElementById('f-hp').value.trim());fd.append(F.layanan,document.getElementById('f-layanan').value);fd.append(F.keperluan,document.getElementById('f-keperluan').value.trim());fetch(FORM_ACTION,{method:'POST',mode:'no-cors',body:fd}).then(onSuccess).catch(onSuccess);}
-function onSuccess(){var now=new Date();var hrs=(new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59)-now)/3600000;setCookie('lkpp_hadir_done','1',hrs);isUnlocked=true;updateGate();renderButtons();var unit=document.getElementById('f-layanan').value;showStep2(unit);var btn=document.getElementById('btnSubmit');btn.disabled=false;document.getElementById('btnText').textContent='Kirim & Buka Akses Layanan';document.getElementById('spinner').style.display='none';}
-function showStep2(unit){document.getElementById('step1Form').style.display='none';document.getElementById('step2Links').style.display='block';document.getElementById('mstep1').className='mstep done';document.getElementById('mstep2').className='mstep active';var cards=document.querySelectorAll('#cardsGrid .card');var match=null;if(pendingIdx!==null){match=cards[pendingIdx];}else{cards.forEach(function(c){if(c.dataset.unit.replace(/&amp;/g,'&')===unit)match=c;});}var zoom=match?match.dataset.zoom:'#';var wa=match?match.dataset.wa:'#';document.getElementById('linkUnitName').textContent=unit||'Unit Layanan';var h='';if(zoom&&zoom!=='#')h+='<a href="'+zoom+'" target="_blank" rel="noopener" class="link-item"><div class="link-item-icon li-zoom">&#x1F3A5;</div><div><span class="link-item-label">Zoom Meeting</span><span class="link-item-sub">Klik untuk bergabung ke sesi</span></div><span class="link-item-arrow">&rarr;</span></a>';if(wa&&wa!=='#')h+='<a href="'+wa+'" target="_blank" rel="noopener" class="link-item"><div class="link-item-icon li-wa">&#x1F4AC;</div><div><span class="link-item-label">WhatsApp</span><span class="link-item-sub">Klik untuk membuka WhatsApp</span></div><span class="link-item-arrow">&rarr;</span></a>';if(!h)h='<p style="font-size:13px;color:var(--text-muted);padding:12px 0;">Tautan akan segera tersedia. Hubungi PIC atau helpdesk@lkpp.go.id</p>';document.getElementById('linkList').innerHTML=h;}
+function showStep2(){document.getElementById('step1Form').style.display='none';document.getElementById('step2Links').style.display='block';document.getElementById('mstep1').className='mstep done';document.getElementById('mstep2').className='mstep active';var cards=document.querySelectorAll('#cardsGrid .card');var match=null;if(pendingIdx!==null){match=cards[pendingIdx];}var teams=match?match.dataset.teams:'#';var wa=match?match.dataset.wa:'#';var unitName=match?match.dataset.unit.replace(/&amp;/g,'&'):'Unit Layanan';document.getElementById('linkUnitName').textContent=unitName;var h='';if(teams&&teams!=='#')h+='<a href="'+teams+'" target="_blank" rel="noopener" class="link-item"><div class="link-item-icon li-teams">&#x1F4BB;</div><div><span class="link-item-label">Microsoft Teams</span><span class="link-item-sub">Klik untuk bergabung ke sesi</span></div><span class="link-item-arrow">&rarr;</span></a>';if(wa&&wa!=='#')h+='<a href="'+wa+'" target="_blank" rel="noopener" class="link-item"><div class="link-item-icon li-wa">&#x1F4AC;</div><div><span class="link-item-label">WhatsApp</span><span class="link-item-sub">Klik untuk membuka WhatsApp</span></div><span class="link-item-arrow">&rarr;</span></a>';if(!h)h='<p style="font-size:13px;color:var(--text-muted);padding:12px 0;">Tautan akan segera tersedia. Hubungi PIC atau helpdesk@lkpp.go.id</p>';document.getElementById('linkList').innerHTML=h;}
 var cat='semua',q='';
 function filter(c,btn){cat=c;document.querySelectorAll('.ftab').forEach(function(t){t.classList.remove('on');});btn.classList.add('on');applyFilter();}
 function searchCards(){q=document.getElementById('searchInput').value.toLowerCase();applyFilter();}
