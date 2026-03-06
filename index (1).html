@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layanan Publik Daring — LKPP</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:        #1255A0;
+  --blue-hover:  #0E4488;
+  --blue-light:  #E8F0FB;
+  --blue-border: #BBCFEE;
+  --white:       #FFFFFF;
+  --bg:          #F8FAFB;
+  --line:        #DDE3EE;
+  --line-lt:     #EAEFF8;
+  --text-primary:   #1A1A2E;
+  --text-secondary: #374260;
+  --text-muted:     #555F7A;
+  --green:  #1A6E3C;
+  --amber:  #7A5200;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-xs: 0 1px 3px rgba(18,85,160,.06);
+  --shadow-sm: 0 2px 10px rgba(18,85,160,.08);
+  --shadow-md: 0 6px 24px rgba(18,85,160,.11);
+  --shadow-lg: 0 16px 48px rgba(18,85,160,.18);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;background:var(--bg);color:var(--text-primary);-webkit-font-smoothing:antialiased;}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:var(--radius-sm);}
+.skip-link{position:absolute;top:-100px;left:16px;background:var(--blue);color:var(--white);padding:10px 18px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;text-decoration:none;z-index:9999;transition:top .2s;}
+.skip-link:focus{top:16px;}
+
+/* TOPBAR */
+.topbar{background:var(--blue);color:rgba(255,255,255,.85);font-size:12.5px;padding:0 48px;height:36px;display:flex;align-items:center;justify-content:space-between;}
+.topbar a{color:rgba(255,255,255,.9);text-decoration:none;font-weight:500;}
+.topbar a:hover{color:var(--white);text-decoration:underline;}
+.topbar-right{display:flex;gap:20px;align-items:center;}
+
+/* HEADER */
+.header{background:var(--white);border-bottom:2px solid var(--blue);position:sticky;top:0;z-index:200;box-shadow:var(--shadow-sm);}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 48px;height:68px;display:flex;align-items:center;gap:16px;}
+.logo-area{display:flex;align-items:center;gap:14px;text-decoration:none;}
+.logo-mark{width:44px;height:44px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;color:var(--white);font-size:12px;font-weight:700;flex-shrink:0;}
+.logo-name{font-size:14px;font-weight:700;color:var(--text-primary);display:block;line-height:1.2;}
+.logo-sub{font-size:11.5px;color:var(--text-muted);}
+nav{margin-left:auto;display:flex;align-items:center;gap:4px;}
+nav a{font-size:13.5px;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:8px 14px;border-radius:var(--radius-sm);transition:background .15s,color .15s;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center;}
+nav a:hover{background:var(--blue-light);color:var(--blue);}
+.nav-btn{background:var(--blue)!important;color:var(--white)!important;font-weight:600!important;margin-left:6px;}
+.nav-btn:hover{background:var(--blue-hover)!important;}
+
+/* HERO */
+.hero{background:var(--white);border-bottom:1px solid var(--line);padding:64px 48px 72px;}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 280px;gap:56px;align-items:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--blue-light);border:1px solid var(--blue-border);color:var(--blue);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:20px;}
+.hero h1{font-family:'Lora',serif;font-size:clamp(28px,3.2vw,44px);color:var(--text-primary);line-height:1.15;margin-bottom:14px;font-weight:700;}
+.hero h1 span{color:var(--blue);}
+.hero-desc{font-size:16px;color:var(--text-secondary);line-height:1.7;max-width:500px;margin-bottom:28px;}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:var(--white);font-size:14px;font-weight:600;padding:12px 22px;border-radius:var(--radius-sm);text-decoration:none;border:none;cursor:pointer;font-family:inherit;min-height:44px;transition:background .18s,transform .15s;}
+.btn-primary:hover{background:var(--blue-hover);transform:translateY(-1px);}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--blue);font-size:14px;font-weight:600;padding:11px 22px;border-radius:var(--radius-sm);text-decoration:none;border:2px solid var(--blue);font-family:inherit;cursor:pointer;min-height:44px;transition:background .18s;}
+.btn-outline:hover{background:var(--blue-light);}
+.hero-info{display:flex;flex-direction:column;gap:10px;}
+.info-card{background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:var(--radius-md);padding:16px 18px;}
+.info-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.info-value{font-size:15px;font-weight:700;color:var(--text-primary);line-height:1.3;}
+.info-sub{font-size:12.5px;color:var(--text-muted);margin-top:1px;}
+
+/* SECTIONS */
+.section{padding:60px 48px;}
+.section-inner{max-width:1200px;margin:0 auto;}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:6px;}
+.section-title{font-family:'Lora',serif;font-size:clamp(20px,2.4vw,30px);color:var(--text-primary);font-weight:700;line-height:1.2;margin-bottom:8px;}
+.section-desc{font-size:15px;color:var(--text-muted);line-height:1.7;max-width:600px;margin-bottom:36px;}
+
+/* STEPS */
+.steps-bg{background:var(--bg);}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.step-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-md);padding:28px 24px;}
+.step-card.is-first{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue);}
+.step-num{font-family:'Lora',serif;font-size:36px;font-weight:700;color:var(--blue-light);line-height:1;margin-bottom:14px;}
+.step-card.is-first .step-num{color:var(--blue);}
+.step-pill{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:10px;}
+.pill-blue{background:var(--blue-light);color:var(--blue);}
+.pill-amber{background:#FEF3CD;color:var(--amber);}
+.pill-green{background:#D6F0E4;color:var(--green);}
+.pill-neutral{background:var(--bg);color:var(--text-secondary);}
+.step-card h4{font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:8px;line-height:1.3;}
+.step-card p{font-size:13.5px;color:var(--text-muted);line-height:1.65;}
+
+/* LAYANAN */
+.layanan-bg{background:var(--white);}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap;}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;flex:1;}
+.ftab{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:500;border:1.5px solid var(--line);background:var(--white);color:var(--text-secondary);cursor:pointer;transition:all .18s;font-family:inherit;min-height:36px;}
+.ftab.on,.ftab:hover{background:var(--blue);color:var(--white);border-color:var(--blue);}
+.search-wrap{position:relative;}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;}
+.search-wrap input{width:220px;padding:9px 14px 9px 36px;border:1.5px solid var(--line);border-radius:999px;font-family:inherit;font-size:13.5px;color:var(--text-primary);outline:none;background:var(--bg);transition:border-color .2s;min-height:36px;}
+.search-wrap input:focus{border-color:var(--blue);background:var(--white);}
+.search-wrap input::placeholder{color:var(--text-muted);}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;}
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .22s,transform .2s;box-shadow:var(--shadow-xs);}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.stripe{height:4px;background:var(--blue);}
+.stripe-md{opacity:.65;}
+.stripe-lt{opacity:.4;}
+.card-body{padding:22px;flex:1;display:flex;flex-direction:column;}
+.card-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.card-icon{width:42px;height:42px;border-radius:10px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.card-cat{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--blue);margin-bottom:3px;}
+.card h3{font-size:14.5px;font-weight:700;color:var(--text-primary);line-height:1.3;}
+.card-desc{font-size:13px;color:var(--text-muted);line-height:1.65;margin-bottom:14px;}
+.service-list{list-style:none;border-top:1px solid var(--line-lt);padding-top:12px;flex:1;}
+.service-list li{font-size:12.5px;color:var(--text-secondary);padding:5px 0;display:flex;align-items:flex-start;gap:8px;line-height:1.5;border-bottom:1px solid var(--line-lt);}
+.service-list li:last-child{border-bottom:none;}
+.li-mark{width:5px;height:5px;border-radius:50%;background:var(--blue);margin-top:6px;flex-shrink:0;}
+.card-foot{padding:14px 22px;border-top:1px solid var(--line);background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.pic-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:2px;}
+.pic-name{font-size:13px;font-weight:600;color:var(--text-primary);}
+.pic-contact{font-size:12px;color:var(--text-muted);}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.btn-sm{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:var(--radius-sm);text-decoration:none;border:none;cursor:pointer;font-family:inherit;min-height:36px;transition:all .18s;white-space:nowrap;}
+.bs-blue{background:var(--blue);color:var(--white);}
+.bs-blue:hover{background:var(--blue-hover);}
+.bs-wa{background:#1A8A44;color:var(--white);}
+.bs-wa:hover{background:#146B35;}
+.bs-ghost{background:var(--white);color:var(--blue);border:1.5px solid var(--blue);}
+.bs-ghost:hover{background:var(--blue-light);}
+
+/* GATE NOTICE */
+.gate-notice{background:var(--blue-light);border:1px solid var(--blue-border);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:24px;display:flex;align-items:center;gap:14px;font-size:13.5px;color:var(--blue);font-weight:500;}
+.gate-notice.unlocked{background:#D6F0E4;border-color:#A3D9BC;color:var(--green);}
+.gate-notice-icon{font-size:20px;flex-shrink:0;}
+.gate-btn{margin-left:auto;flex-shrink:0;display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:var(--white);font-size:13px;font-weight:600;padding:8px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-family:inherit;min-height:36px;transition:background .18s;}
+.gate-btn:hover{background:var(--blue-hover);}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,50,.55);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.active{display:flex;}
+.modal{background:var(--white);border-radius:var(--radius-lg);width:100%;max-width:540px;box-shadow:var(--shadow-lg);overflow:hidden;animation:slideUp .3s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+.modal-header{background:var(--blue);padding:24px 28px 20px;position:relative;}
+.modal-header h2{font-family:'Lora',serif;font-size:20px;font-weight:700;color:var(--white);line-height:1.25;margin-bottom:4px;}
+.modal-header p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.5;}
+.modal-close{position:absolute;top:16px;right:20px;background:rgba(255,255,255,.15);border:none;color:var(--white);width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;font-family:inherit;line-height:1;}
+.modal-close:hover{background:rgba(255,255,255,.3);}
+.modal-body{padding:24px 28px 28px;}
+.modal-steps{display:flex;align-items:center;gap:0;margin-bottom:24px;}
+.mstep{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text-muted);flex:1;}
+.mstep.active{color:var(--blue);}
+.mstep.done{color:var(--green);}
+.mstep-num{width:24px;height:24px;border-radius:50%;background:var(--line);color:var(--text-muted);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.mstep.active .mstep-num{background:var(--blue);color:var(--white);}
+.mstep.done .mstep-num{background:var(--green);color:var(--white);}
+.mstep-line{flex:1;height:1px;background:var(--line);margin:0 4px;}
+.form-group{margin-bottom:16px;}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;}
+.form-label .req{color:#C0392B;margin-left:2px;}
+.form-input{width:100%;padding:10px 14px;border:1.5px solid var(--line);border-radius:var(--radius-sm);font-family:inherit;font-size:14px;color:var(--text-primary);background:var(--white);outline:none;transition:border-color .2s;min-height:44px;}
+.form-input:focus{border-color:var(--blue);}
+.form-input::placeholder{color:var(--text-muted);}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555F7A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-error{font-size:12px;color:#C0392B;margin-top:4px;display:none;}
+.form-group.has-error .form-input{border-color:#C0392B;}
+.form-group.has-error .form-error{display:block;}
+.step2{display:none;}
+.success-banner{background:#D6F0E4;border:1px solid #A3D9BC;border-radius:var(--radius-md);padding:16px 18px;display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;}
+.success-icon{font-size:22px;flex-shrink:0;}
+.success-text h3{font-size:15px;font-weight:700;color:var(--green);margin-bottom:2px;}
+.success-text p{font-size:13px;color:#1B5E38;line-height:1.5;}
+.link-section h4{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;}
+.link-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.link-item{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;text-decoration:none;transition:border-color .18s,background .18s;}
+.link-item:hover{border-color:var(--blue);background:var(--blue-light);}
+.link-item-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.li-zoom{background:#E8F0FB;}
+.li-wa{background:#D6F0E4;}
+.link-item-label{font-size:13px;font-weight:600;color:var(--text-primary);display:block;}
+.link-item-sub{font-size:12px;color:var(--text-muted);}
+.link-item-arrow{margin-left:auto;color:var(--text-muted);font-size:16px;}
+.modal-note{font-size:12px;color:var(--text-muted);line-height:1.6;text-align:center;}
+.btn-submit{width:100%;background:var(--blue);color:var(--white);font-size:15px;font-weight:600;padding:13px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-family:inherit;min-height:48px;transition:background .18s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-submit:hover{background:var(--blue-hover);}
+.btn-submit:disabled{background:var(--text-muted);cursor:not-allowed;}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:var(--white);border-radius:50%;animation:spin .7s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* CTA */
+.cta-strip{background:var(--blue);padding:52px 48px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+.cta-eyebrow{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px;}
+.cta-strip h2{font-family:'Lora',serif;font-size:clamp(18px,2.2vw,28px);color:var(--white);font-weight:700;line-height:1.25;margin-bottom:8px;}
+.cta-strip p{font-size:14px;color:rgba(255,255,255,.8);line-height:1.65;max-width:480px;}
+.btn-cta{display:inline-flex;align-items:center;gap:10px;background:var(--white);color:var(--blue);font-size:15px;font-weight:700;padding:14px 28px;border-radius:var(--radius-sm);text-decoration:none;border:none;cursor:pointer;font-family:inherit;min-height:48px;transition:background .18s,transform .15s;white-space:nowrap;}
+.btn-cta:hover{background:var(--blue-light);transform:translateY(-1px);}
+.cta-note{font-size:12px;color:rgba(255,255,255,.6);margin-top:10px;}
+
+/* FAQ */
+.faq-bg{background:var(--bg);}
+.faq-list{max-width:740px;}
+.faq-item{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-md);margin-bottom:8px;overflow:hidden;}
+.faq-q{width:100%;background:none;border:none;font-family:inherit;font-size:14.5px;font-weight:600;color:var(--text-primary);padding:18px 20px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px;transition:background .15s;}
+.faq-q:hover{background:var(--bg);}
+.faq-icon{width:28px;height:28px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:transform .25s;line-height:1;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{display:none;font-size:14px;color:var(--text-secondary);line-height:1.75;padding:16px 20px 20px;border-top:1px solid var(--line);}
+.faq-item.open .faq-a{display:block;}
+
+/* FOOTER */
+footer{background:var(--text-primary);padding:52px 48px 24px;}
+.foot-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:24px;}
+.foot-logo{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.foot-mark{width:36px;height:36px;border-radius:7px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;color:var(--white);font-size:11px;font-weight:700;}
+.foot-brand-name{font-size:14px;font-weight:700;color:var(--white);}
+.foot-brand p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;max-width:240px;}
+.foot-col h4{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:14px;}
+.foot-col a{display:block;font-size:13px;color:rgba(255,255,255,.65);text-decoration:none;margin-bottom:10px;transition:color .15s;min-height:24px;}
+.foot-col a:hover{color:var(--white);text-decoration:underline;}
+.foot-bottom{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.3);flex-wrap:wrap;gap:8px;}
+
+/* ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity .48s ease,transform .48s ease;}
+.fade-up.vis{opacity:1;transform:none;}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+  .topbar,.header-inner,.hero,.section,.cta-strip,footer{padding-left:24px;padding-right:24px;}
+  nav a:not(.nav-btn){display:none;}
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-info{flex-direction:row;flex-wrap:wrap;}
+  .info-card{flex:1;min-width:180px;}
+  .steps-grid{grid-template-columns:1fr 1fr;}
+  .cards-grid{grid-template-columns:1fr;}
+  .cta-strip{flex-direction:column;align-items:flex-start;}
+  .foot-grid{grid-template-columns:1fr 1fr;}
+  .foot-bottom{flex-direction:column;text-align:center;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .steps-grid{grid-template-columns:1fr;}
+  .hero-info{flex-direction:column;}
+  .modal-body{padding:20px;}
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Lewati ke konten utama</a>
+
+<!-- ═══════════════ MODAL ═══════════════ -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">📋 Daftar Hadir Layanan Publik</h2>
+      <p>Wajib diisi sebelum mengakses layanan daring LKPP</p>
+      <button class="modal-close" onclick="closeModal()" aria-label="Tutup">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <!-- Progress -->
+      <div class="modal-steps">
+        <div class="mstep active" id="mstep1"><div class="mstep-num">1</div><span>Isi Data</span></div>
+        <div class="mstep-line"></div>
+        <div class="mstep" id="mstep2"><div class="mstep-num">2</div><span>Akses Layanan</span></div>
+      </div>
+      <!-- Step 1: Form -->
+      <div id="step1Form">
+        <div class="form-row">
+          <div class="form-group" id="fg-nama">
+            <label class="form-label" for="f-nama">Nama Lengkap <span class="req">*</span></label>
+            <input class="form-input" type="text" id="f-nama" placeholder="Nama Anda" autocomplete="name">
+            <div class="form-error" id="err-nama">Nama wajib diisi</div>
+          </div>
+          <div class="form-group" id="fg-instansi">
+            <label class="form-label" for="f-instansi">Instansi / Lembaga <span class="req">*</span></label>
+            <input class="form-input" type="text" id="f-instansi" placeholder="Nama instansi Anda" autocomplete="organization">
+            <div class="form-error" id="err-instansi">Instansi wajib diisi</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="f-jabatan">Jabatan</label>
+            <input class="form-input" type="text" id="f-jabatan" placeholder="Jabatan Anda" autocomplete="organization-title">
+          </div>
+          <div class="form-group" id="fg-hp">
+            <label class="form-label" for="f-hp">Kontak / No. HP <span class="req">*</span></label>
+            <input class="form-input" type="tel" id="f-hp" placeholder="08xxxxxxxxxx" autocomplete="tel">
+            <div class="form-error" id="err-hp">Nomor kontak wajib diisi</div>
+          </div>
+        </div>
+        <div class="form-group" id="fg-layanan">
+          <label class="form-label" for="f-layanan">Unit Layanan yang Dituju <span class="req">*</span></label>
+          <select class="form-input form-select" id="f-layanan">
+            <option value="">— Pilih unit layanan —</option>
+            <option value="Pusat Pelatihan SDM Pengadaan Barang/Jasa">Pusat Pelatihan SDM Pengadaan Barang/Jasa</option>
+            <option value="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Umum">Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Umum</option>
+            <option value="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Khusus">Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Khusus</option>
+            <option value="Dit. Pengembangan Iklim Usaha &amp; Kerjasama Internasional">Dit. Pengembangan Iklim Usaha &amp; Kerjasama Internasional</option>
+            <option value="Dit. Perencanaan Transformasi, Pemantauan &amp; Evaluasi Pengadaan">Dit. Perencanaan Transformasi, Pemantauan &amp; Evaluasi Pengadaan</option>
+            <option value="Dit. Sistem Pengadaan Digital">Dit. Sistem Pengadaan Digital</option>
+            <option value="Dit. Pasar Digital Pengadaan">Dit. Pasar Digital Pengadaan</option>
+            <option value="Dit. Pengembangan Profesi &amp; Kelembagaan">Dit. Pengembangan Profesi &amp; Kelembagaan</option>
+            <option value="Dit. Sertifikasi Profesi">Dit. Sertifikasi Profesi</option>
+            <option value="Dit. Advokasi Pemerintah Pusat">Dit. Advokasi Pemerintah Pusat</option>
+            <option value="Dit. Advokasi Pemerintah Daerah">Dit. Advokasi Pemerintah Daerah</option>
+            <option value="Dit. Penanganan Permasalahan Hukum">Dit. Penanganan Permasalahan Hukum</option>
+            <option value="Biro Hubungan Masyarakat dan Umum">Biro Hubungan Masyarakat dan Umum</option>
+          </select>
+          <div class="form-error" id="err-layanan">Pilih unit layanan yang dituju</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-keperluan">Keperluan / Topik Konsultasi</label>
+          <input class="form-input" type="text" id="f-keperluan" placeholder="Singkat, misal: konsultasi kontrak pengadaan">
+        </div>
+        <button class="btn-submit" id="btnSubmit" onclick="submitForm()">
+          <span id="btnText">Kirim &amp; Buka Akses Layanan</span>
+          <div class="spinner" id="spinner"></div>
+        </button>
+        <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:10px;">Data Anda hanya digunakan untuk keperluan administrasi layanan publik LKPP</p>
+      </div>
+      <!-- Step 2: Links -->
+      <div id="step2Links" class="step2">
+        <div class="success-banner">
+          <div class="success-icon">&#x2705;</div>
+          <div class="success-text">
+            <h3>Daftar hadir berhasil tercatat!</h3>
+            <p>Akses layanan di bawah ini sudah terbuka. Status diingat hingga pukul 23.59 hari ini.</p>
+          </div>
+        </div>
+        <div class="link-section">
+          <h4 id="linkUnitName">Tautan Layanan</h4>
+          <div class="link-list" id="linkList"></div>
+        </div>
+        <p class="modal-note">Butuh bantuan? Hubungi PIC atau <a href="/cdn-cgi/l/email-protection#472f222b372322342c072b2c3737692028692e23" style="color:var(--blue);"><span class="__cf_email__" data-cfemail="cca4a9a0bca8a9bfa78ca0a7bcbce2aba3e2a5a8">[email&#160;protected]</span></a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE ═══════════════ -->
+<div class="topbar">
+  <span>&#x1F3DB; Lembaga Kebijakan Pengadaan Barang/Jasa Pemerintah (LKPP)</span>
+  <div class="topbar-right">
+    <a href="https://lkpp.go.id" target="_blank" rel="noopener">lkpp.go.id</a>
+    <span>|</span>
+    <a href="/cdn-cgi/l/email-protection#d5bdb0b9a5b1b0a6be95b9bea5a5fbb2bafbbcb1"><span class="__cf_email__" data-cfemail="b0d8d5dcc0d4d5c3dbf0dcdbc0c09ed7df9ed9d4">[email&#160;protected]</span></a>
+  </div>
+</div>
+
+<header class="header">
+  <div class="header-inner">
+    <a class="logo-area" href="#" aria-label="Beranda Portal Layanan Publik LKPP">
+      <!-- SWAP: <img src="logo-lkpp.png" alt="Logo LKPP" style="height:44px;width:auto"> -->
+      <img src="logo-lkpp.png" alt="Logo LKPP" style="height:44px;width:auto">
+      <div>
+        <span class="logo-name">Portal Layanan Publik Daring</span>
+        <span class="logo-sub">Idul Fitri 1447H &middot; Biro Humas &amp; Umum LKPP</span>
+      </div>
+    </a>
+    <nav>
+      <a href="#cara-akses">Cara Akses</a>
+      <a href="#layanan">Unit Layanan</a>
+      <a href="#faq">FAQ</a>
+      <a href="#" onclick="openModal(event)" class="nav-btn">&#x1F4CB; Daftar Hadir</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="fade-up">
+      <div class="hero-tag">&#x1F54C; Penyesuaian Tugas Kedinasan &mdash; Idul Fitri 1447H</div>
+      <h1>Layanan Publik LKPP<br><span>Tetap Hadir Secara Daring</span></h1>
+      <p class="hero-desc">Seluruh layanan publik LKPP beroperasi secara daring selama periode libur nasional. Temukan unit layanan, isi daftar hadir, lalu akses melalui Zoom atau WhatsApp.</p>
+      <div class="hero-actions">
+        <a href="#layanan" class="btn-primary">Lihat Unit Layanan &rarr;</a>
+        <a href="#" onclick="openModal(event)" class="btn-outline">&#x1F4CB; Isi Daftar Hadir</a>
+      </div>
+    </div>
+    <div class="hero-info fade-up">
+      <div class="info-card">
+        <div class="info-label">&#x1F4C5; Periode Layanan</div>
+        <div class="info-value">16&ndash;17 &amp; 25&ndash;27 Maret 2026</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">&#x1F550; Jam Operasional</div>
+        <div class="info-value">09.00 &ndash; 14.00 WIB</div>
+        <div class="info-sub">Mengikuti jam Ramadan</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">&#x1F3E2; Unit Layanan</div>
+        <div class="info-value">13 Unit Organisasi</div>
+        <div class="info-sub">Zoom &middot; WhatsApp &middot; Daring</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARA AKSES -->
+<section class="section steps-bg" id="cara-akses">
+  <div class="section-inner">
+    <div class="section-label">Panduan</div>
+    <h2 class="section-title">Cara Mengakses Layanan</h2>
+    <p class="section-desc">Empat langkah mudah untuk mengakses layanan konsultasi LKPP secara daring.</p>
+    <div class="steps-grid fade-up">
+      <div class="step-card is-first">
+        <div class="step-num">01</div>
+        <div class="step-pill pill-blue">Mulai di sini</div>
+        <h4>Temukan Unit Layanan</h4>
+        <p>Gunakan filter atau pencarian untuk menemukan direktorat yang sesuai kebutuhan Anda.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-pill pill-amber">&#x26A0; Wajib</div>
+        <h4>Isi Daftar Hadir</h4>
+        <p>Klik tombol layanan di kartu unor. Isi formulir daftar hadir yang muncul terlebih dahulu.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-pill pill-neutral">Otomatis</div>
+        <h4>Link Terbuka Setelah Submit</h4>
+        <p>Setelah daftar hadir terisi, tautan Zoom dan WhatsApp akan langsung muncul.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-pill pill-green">&#x2713; Selesai</div>
+        <h4>Mulai Konsultasi</h4>
+        <p>Bergabung sesuai jadwal. Status terdaftar diingat sistem hingga pukul 23.59 hari ini.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIT LAYANAN -->
+<section class="section layanan-bg" id="layanan">
+  <div class="section-inner">
+    <div class="section-label">Unit Organisasi</div>
+    <h2 class="section-title">Pilih Layanan yang Anda Butuhkan</h2>
+    <p class="section-desc">13 unit organisasi LKPP siap melayani. Klik tombol pada kartu layanan untuk membuka daftar hadir dan mendapatkan akses.</p>
+
+    <div class="gate-notice" id="gateNotice">
+      <span class="gate-notice-icon">&#x1F512;</span>
+      <span id="gateText">Tautan Zoom dan WhatsApp terkunci. Isi daftar hadir terlebih dahulu untuk membuka akses.</span>
+      <button class="gate-btn" onclick="openModal(event)">&#x1F4CB; Isi Daftar Hadir</button>
+    </div>
+
+    <div class="toolbar">
+      <div class="filter-row">
+        <button class="ftab on" onclick="filter('semua',this)">Semua</button>
+        <button class="ftab" onclick="filter('kebijakan',this)">Kebijakan Pengadaan</button>
+        <button class="ftab" onclick="filter('pelatihan',this)">Pelatihan SDM</button>
+        <button class="ftab" onclick="filter('sertif',this)">Sertifikasi &amp; Profesi</button>
+        <button class="ftab" onclick="filter('advokasi',this)">Advokasi</button>
+        <button class="ftab" onclick="filter('digital',this)">Sistem Digital</button>
+        <button class="ftab" onclick="filter('humas',this)">Biro Humas &amp; Umum</button>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true">&#x1F50D;</span>
+        <input type="search" id="searchInput" placeholder="Cari layanan..." aria-label="Cari layanan" oninput="searchCards()">
+      </div>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+
+      <article class="card fade-up" data-cat="pelatihan" data-kw="pelatihan sdm blended fasilitator desa kpbu jabatan fungsional okupasi ppk pokja" data-unit="Pusat Pelatihan SDM Pengadaan Barang/Jasa" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F393;</div><div><div class="card-cat">Pelatihan SDM</div><h3>Pusat Pelatihan SDM Pengadaan Barang/Jasa</h3></div></div>
+          <p class="card-desc">Penyelenggaraan pelatihan PBJ untuk berbagai level kompetensi &mdash; dari dasar hingga jabatan fungsional.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Pelatihan PBJ Tingkat Dasar Blended Learning</li>
+            <li><span class="li-mark"></span>Pelatihan Bagi Fasilitator PBJ Tingkat Dasar</li>
+            <li><span class="li-mark"></span>Pelatihan PBJ di Desa &amp; KPBU</li>
+            <li><span class="li-mark"></span>Pelatihan Pembentukan Jabatan Fungsional PBJ</li>
+            <li><span class="li-mark"></span>Pelatihan Kompetensi JF PBJ Pertama, Muda, Madya</li>
+            <li><span class="li-mark"></span>Pelatihan Okupasi PA/KPA, PPK, Pokja, Pejabat Pengadaan</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-0"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="kebijakan" data-kw="kebijakan strategi pedoman pengadaan umum diseminasi standar prosedur" data-unit="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Umum" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-md"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F4DC;</div><div><div class="card-cat">Kebijakan Pengadaan</div><h3>Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Umum</h3></div></div>
+          <p class="card-desc">Konsultasi kebijakan, penyusunan pedoman, dan diseminasi strategi pengadaan umum barang/jasa pemerintah.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Konsultasi Perumusan Kebijakan Pengadaan Umum</li>
+            <li><span class="li-mark"></span>Penyusunan &amp; Diseminasi Pedoman Pengadaan Umum</li>
+            <li><span class="li-mark"></span>Konsultasi Standar &amp; Prosedur Pengadaan B/J</li>
+            <li><span class="li-mark"></span>Informasi Kebijakan Pengadaan Pemerintah</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-1"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="kebijakan" data-kw="kebijakan khusus desa blu blud kpbu kerja sama pemerintah badan usaha pengadaan khusus pendapat" data-unit="Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Khusus" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-md"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F4CB;</div><div><div class="card-cat">Kebijakan Pengadaan</div><h3>Dit. Pengembangan Strategi &amp; Kebijakan Pengadaan Khusus</h3></div></div>
+          <p class="card-desc">Konsultasi kebijakan pengadaan khusus — Desa, BLU/BLUD, KPBU, dan pemberian pendapat pelaksanaan pengadaan khusus.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Konsultasi Kebijakan Pengadaan di Desa &amp; BLU/BLUD</li>
+            <li><span class="li-mark"></span>Konsultasi Pengadaan pada KPBU (Kerja Sama Pemerintah &amp; Badan Usaha)</li>
+            <li><span class="li-mark"></span>Pemberian Pendapat Penyusunan Kebijakan Pengadaan Khusus</li>
+            <li><span class="li-mark"></span>Sosialisasi/Bimtek Kebijakan Pengadaan Khusus</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-2"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="kebijakan" data-kw="iklim usaha kerjasama internasional pelaku usaha ekosistem" data-unit="Dit. Pengembangan Iklim Usaha &amp; Kerjasama Internasional" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-lt"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F91D;</div><div><div class="card-cat">Iklim Usaha &amp; Kerjasama</div><h3>Dit. Pengembangan Iklim Usaha &amp; Kerjasama Internasional</h3></div></div>
+          <p class="card-desc">Pengembangan ekosistem usaha pengadaan dan kerjasama internasional di bidang PBJ Pemerintah.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Pengembangan Kapasitas Pelaku Usaha dalam PBJP</li>
+            <li><span class="li-mark"></span>Informasi Kerjasama Internasional PBJ</li>
+            <li><span class="li-mark"></span>Konsultasi Iklim Usaha Pengadaan</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-3"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="digital" data-kw="perencanaan transformasi pemantauan evaluasi monev data pengadaan nasional rup sirup daftar hitam" data-unit="Dit. Perencanaan Transformasi, Pemantauan &amp; Evaluasi Pengadaan" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-md"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F504;</div><div><div class="card-cat">Perencanaan &amp; Evaluasi</div><h3>Dit. Perencanaan Transformasi, Pemantauan &amp; Evaluasi Pengadaan</h3></div></div>
+          <p class="card-desc">Perumusan strategi transformasi pengadaan digital, perencanaan, pemantauan, evaluasi, dan pengelolaan data pengadaan nasional.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Konsultasi Perencanaan &amp; Transformasi Pengadaan Digital</li>
+            <li><span class="li-mark"></span>Pemantauan &amp; Evaluasi Penyelenggaraan Pengadaan (MonEv)</li>
+            <li><span class="li-mark"></span>Pengelolaan Data Pengadaan Nasional (RUP &amp; SIRUP)</li>
+            <li><span class="li-mark"></span>Informasi Sanksi Daftar Hitam</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-4"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="digital" data-kw="sistem spse lpse digital elektronik bimtek support call center verifikasi standarisasi admin" data-unit="Dit. Sistem Pengadaan Digital" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F4BB;</div><div><div class="card-cat">Sistem Digital</div><h3>Dit. Sistem Pengadaan Digital</h3></div></div>
+          <p class="card-desc">Pembangunan, pengelolaan, dan tata kelola sistem pengadaan digital (SPSE/LPSE) — termasuk dukungan teknis, verifikasi, dan standarisasi LPSE.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Dukungan Penggunaan SPSE (LPSE Support &amp; Call Center)</li>
+            <li><span class="li-mark"></span>Bimtek SPSE &amp; Bimtek LPSE Admin System</li>
+            <li><span class="li-mark"></span>Bimtek Standarisasi LPSE di LKPP</li>
+            <li><span class="li-mark"></span>Verifikasi LPSE LKPP</li>
+            <li><span class="li-mark"></span>Permohonan Sosialisasi/Bimtek/Pelatihan SPSE</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-5"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="digital" data-kw="pasar digital katalog toko daring marketplace epurchasing" data-unit="Dit. Pasar Digital Pengadaan" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-md"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F6D2;</div><div><div class="card-cat">Pasar Digital</div><h3>Dit. Pasar Digital Pengadaan</h3></div></div>
+          <p class="card-desc">Pembangunan dan pengelolaan pasar digital pengadaan — katalog elektronik, toko daring, dan marketplace pemerintah.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Layanan Katalog Elektronik Pemerintah (teknis &amp; akses sistem)</li>
+            <li><span class="li-mark"></span>Informasi &amp; Akses Toko Daring (e-Purchasing)</li>
+            <li><span class="li-mark"></span>Pendaftaran &amp; Pengelolaan Marketplace Pengadaan</li>
+            <li><span class="li-mark"></span>Dukungan Pengguna Sistem Pasar Digital Pengadaan</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-6"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="sertif" data-kw="profesi kelembagaan dupak jabatan fungsional ukpbj akreditasi lppbj" data-unit="Dit. Pengembangan Profesi &amp; Kelembagaan" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-md"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F3DB;&#xFE0F;</div><div><div class="card-cat">Profesi &amp; Kelembagaan</div><h3>Dit. Pengembangan Profesi &amp; Kelembagaan</h3></div></div>
+          <p class="card-desc">Layanan jabatan fungsional pengadaan, pembinaan UKPBJ, dan akreditasi lembaga pelatihan PBJ.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Penilaian DUPAK Jabatan Fungsional Pengelola PBJ</li>
+            <li><span class="li-mark"></span>Pembinaan Unit Kerja Pengadaan B/J (UKPBJ)</li>
+            <li><span class="li-mark"></span>Akreditasi Lembaga Pelatihan PBJ (LPPBJ)</li>
+            <li><span class="li-mark"></span>Konsultasi Pengembangan Jabatan Fungsional PBJ</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-7"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="sertif" data-kw="sertifikasi sertifikat kompetensi dasar ujian uji" data-unit="Dit. Sertifikasi Profesi" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-lt"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F4DC;</div><div><div class="card-cat">Sertifikasi Profesi</div><h3>Dit. Sertifikasi Profesi</h3></div></div>
+          <p class="card-desc">Layanan sertifikasi kompetensi pengadaan barang/jasa pemerintah untuk para pelaku pengadaan.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Sertifikasi Dasar PBJ Pemerintah</li>
+            <li><span class="li-mark"></span>Sertifikasi Kompetensi PBJ</li>
+            <li><span class="li-mark"></span>Informasi Jadwal &amp; Syarat Sertifikasi</li>
+            <li><span class="li-mark"></span>Konsultasi Proses &amp; Alur Sertifikasi</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-8"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="advokasi" data-kw="advokasi pemerintah pusat kementerian lembaga bimtek pendapat rekomendasi koreksi diseminasi" data-unit="Dit. Advokasi Pemerintah Pusat" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-md"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x2696;&#xFE0F;</div><div><div class="card-cat">Advokasi</div><h3>Dit. Advokasi Pemerintah Pusat</h3></div></div>
+          <p class="card-desc">Bimbingan teknis, advokasi, pendapat, rekomendasi dan tindakan koreksi pengadaan barang/jasa di pemerintah pusat (K/L).</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Advokasi &amp; Bimtek Pengadaan B/J di K/L Pemerintah Pusat</li>
+            <li><span class="li-mark"></span>Pemberian Pendapat &amp; Rekomendasi Proses Pengadaan K/L</li>
+            <li><span class="li-mark"></span>Tindakan Koreksi Pelaksanaan Pengadaan K/L</li>
+            <li><span class="li-mark"></span>Diseminasi Peraturan PBJ Pemerintah (K/L)</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-9"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="advokasi" data-kw="advokasi pemerintah daerah pemda bimtek pendapat rekomendasi koreksi provinsi kabupaten kota sosialisasi" data-unit="Dit. Advokasi Pemerintah Daerah" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-lt"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F5FA;&#xFE0F;</div><div><div class="card-cat">Advokasi</div><h3>Dit. Advokasi Pemerintah Daerah</h3></div></div>
+          <p class="card-desc">Bimbingan teknis, advokasi, pendapat, rekomendasi dan tindakan koreksi pengadaan barang/jasa di pemerintah daerah.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Advokasi &amp; Bimtek Pengadaan B/J di Pemda (Provinsi/Kab/Kota)</li>
+            <li><span class="li-mark"></span>Pemberian Pendapat &amp; Rekomendasi Proses Pengadaan Pemda</li>
+            <li><span class="li-mark"></span>Tindakan Koreksi Pelaksanaan Pengadaan Pemda</li>
+            <li><span class="li-mark"></span>Sosialisasi Peraturan PBJ untuk Pemerintah Daerah</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-10"></div></div>
+      </article>
+
+      <article class="card fade-up" data-cat="advokasi" data-kw="hukum permasalahan sengketa keterangan ahli penyelesaian PKA kontrak" data-unit="Dit. Penanganan Permasalahan Hukum" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe stripe-lt"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F4C1;</div><div><div class="card-cat">Permasalahan Hukum</div><h3>Dit. Penanganan Permasalahan Hukum</h3></div></div>
+          <p class="card-desc">Nasihat dan pendapat hukum, penyelesaian sengketa kontrak, pemberian keterangan ahli, dan penanganan pengaduan pengadaan.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Nasihat &amp; Pendapat Hukum Pengadaan (pasca kontrak)</li>
+            <li><span class="li-mark"></span>Penyelesaian Sengketa Kontrak PBJ</li>
+            <li><span class="li-mark"></span>Pemberian Keterangan Ahli PBJ (PKA PBJ)</li>
+            <li><span class="li-mark"></span>Penanganan Pengaduan di Bidang Pengadaan B/J</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-11"></div></div>
+      </article>
+
+      <!-- BIRO HUMAS & UMUM -->
+      <article class="card fade-up" data-cat="humas" data-kw="biro humas hubungan masyarakat umum ppid informasi publik dokumentasi" data-unit="Biro Hubungan Masyarakat dan Umum" data-zoom="https://zoom.us/j/PLACEHOLDER" data-wa="https://wa.me/628PLACEHOLDER">
+        <div class="stripe"></div>
+        <div class="card-body">
+          <div class="card-head"><div class="card-icon">&#x1F3E2;</div><div><div class="card-cat">Biro Humas &amp; Umum</div><h3>Biro Hubungan Masyarakat dan Umum</h3></div></div>
+          <p class="card-desc">Layanan pengelolaan informasi dan dokumentasi publik (PPID) LKPP melalui website ppid.lkpp.go.id.</p>
+          <ul class="service-list">
+            <li><span class="li-mark"></span>Layanan PPID &mdash; Permohonan Informasi Publik</li>
+            <li><span class="li-mark"></span>Konsultasi &amp; Pengaduan Informasi Publik</li>
+            <li><span class="li-mark"></span>Monitoring Permohonan Informasi</li>
+          </ul>
+        </div>
+        <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-12"></div></div>
+      </article>
+
+    </div><!-- /cards-grid -->
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-strip" id="daftar">
+  <div>
+    <div class="cta-eyebrow">&#x1F4CB; Wajib sebelum mengakses layanan</div>
+    <h2>Belum Mengisi Daftar Hadir?</h2>
+    <p>Isi daftar hadir sekarang untuk membuka akses tautan Zoom dan WhatsApp seluruh unit layanan LKPP.</p>
+  </div>
+  <div>
+    <button onclick="openModal(event)" class="btn-cta">&#x1F4CB; Isi Daftar Hadir Sekarang</button>
+    <p class="cta-note">Data digunakan untuk keperluan administrasi layanan publik LKPP</p>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="section faq-bg" id="faq">
+  <div class="section-inner">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Mengapa tautan Zoom/WhatsApp terkunci?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Tautan layanan dikunci untuk memastikan seluruh pengguna mengisi daftar hadir terlebih dahulu. Ini penting agar LKPP dapat mencatat dan memantau pengguna layanan publik daring secara akurat.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Apakah saya perlu mengisi daftar hadir setiap hari?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Tidak. Setelah mengisi daftar hadir, status terdaftar Anda akan diingat sistem hingga pukul 23.59 pada hari yang sama. Keesokan harinya Anda perlu mengisi kembali.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Apakah data saya aman?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Ya. Data yang Anda isi hanya digunakan untuk keperluan administrasi dan pelaporan layanan publik LKPP. Data tidak disebarluaskan kepada pihak ketiga.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Apakah layanan tatap muka tersedia selama periode ini?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Tidak. Selama periode penyesuaian tugas kedinasan (16&ndash;17 dan 25&ndash;27 Maret 2026), seluruh layanan publik LKPP diselenggarakan secara daring. Layanan tatap muka kembali normal sesuai jadwal reguler LKPP.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Berapa jam layanan daring tersedia?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Jam layanan mengikuti jam operasional Bulan Ramadan yaitu pukul 09.00&ndash;14.00 WIB. Mohon rencanakan sesi konsultasi Anda sesuai jam yang berlaku.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-logo">
+        <!-- SWAP: <img src="logo-lkpp.png" alt="Logo LKPP" style="height:36px;width:auto"> -->
+        <img src="logo_lkpp_white.png" alt="Logo LKPP" style="height:44px;width:auto">
+        <span class="foot-brand-name">Portal Layanan Publik Daring</span>
+      </div>
+      <p class="foot-brand">Lembaga Kebijakan Pengadaan Barang/Jasa Pemerintah<br>Jl. Epicentrum Tengah Lot 11B, Jakarta Selatan 12940<br><br>Dikelola oleh Biro Hubungan Masyarakat dan Umum LKPP</p>
+    </div>
+    <div class="foot-col">
+      <h4>Navigasi</h4>
+      <a href="#cara-akses">Cara Akses</a>
+      <a href="#layanan">Unit Layanan</a>
+      <a href="#daftar">Daftar Hadir</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="foot-col">
+      <h4>Tautan Resmi</h4>
+      <a href="https://lkpp.go.id" target="_blank" rel="noopener">lkpp.go.id</a>
+      <a href="https://ppid.lkpp.go.id" target="_blank" rel="noopener">ppid.lkpp.go.id</a>
+      <a href="https://jdih.lkpp.go.id" target="_blank" rel="noopener">jdih.lkpp.go.id</a>
+      <a href="https://inaproc.id" target="_blank" rel="noopener">inaproc.id</a>
+    </div>
+    <div class="foot-col">
+      <h4>Hubungi Kami</h4>
+      <a href="/cdn-cgi/l/email-protection#cba3aea7bbafaeb8a08ba7a0bbbbe5aca4e5a2af"><span class="__cf_email__" data-cfemail="0d6568617d69687e664d61667d7d236a62236469">[email&#160;protected]</span></a>
+      <a href="https://lkpp.go.id/hubungi-kami" target="_blank" rel="noopener">Form Hubungi Kami</a>
+      <a href="https://ppid.lkpp.go.id" target="_blank" rel="noopener">Permohonan Informasi</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&ldquo;Pengadaan yang Kredibel Sejahterakan Rakyat&rdquo;</span>
+    <span>&copy; 2026 Lembaga Kebijakan Pengadaan Barang/Jasa Pemerintah</span>
+  </div>
+</footer>
+
+<!-- JS will be inline below, written separately -->
+<script>
+var FORM_ACTION = 'https://docs.google.com/forms/u/0/d/1ITUnSqWA4yjJ5pTQ8rYm73LCGl6darQi1dh06Mx6q4o/formResponse';
+var F = { nama:'entry.715297018', instansi:'entry.1216339565', jabatan:'entry.1540240801', hp:'entry.825133389', layanan:'entry.1369795959', keperluan:'entry.81131949' };
+function setCookie(n,v,h){var d=new Date();d.setTime(d.getTime()+h*3600000);document.cookie=n+'='+v+';expires='+d.toUTCString()+';path=/;SameSite=Strict';}
+function getCookie(n){var v=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return v?v.pop():null;}
+var isUnlocked=false,pendingIdx=null;
+function checkUnlock(){if(getCookie('lkpp_hadir_done')==='1'){isUnlocked=true;updateGate();}renderButtons();}
+function updateGate(){var n=document.getElementById('gateNotice');if(!n)return;var t=document.getElementById('gateText');var b=n.querySelector('.gate-btn');if(isUnlocked){n.classList.add('unlocked');t.textContent='Daftar hadir sudah terisi. Seluruh tautan layanan telah terbuka.';if(b)b.style.display='none';}}
+function renderButtons(){var cards=document.querySelectorAll('#cardsGrid .card');cards.forEach(function(card,i){var row=document.getElementById('btnRow-'+i);if(!row)return;var zoom=card.dataset.zoom||'#';var wa=card.dataset.wa||'#';if(isUnlocked){var h='';if(zoom!=='#')h+='<a href="'+zoom+'" target="_blank" rel="noopener" class="btn-sm bs-blue">&#x1F3A5; Zoom</a>';if(wa!=='#')h+='<a href="'+wa+'" target="_blank" rel="noopener" class="btn-sm bs-wa">&#x1F4AC; WA</a>';row.innerHTML=h;}else{row.innerHTML='<button class="btn-sm bs-ghost" onclick="openFromCard('+i+')">&#x1F512; Daftar Hadir dulu</button>';}});}
+function openModal(e){if(e)e.preventDefault();pendingIdx=null;showStep1();document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';setTimeout(function(){document.getElementById('f-nama').focus();},120);}
+function openFromCard(idx){pendingIdx=idx;showStep1();var cards=document.querySelectorAll('#cardsGrid .card');var card=cards[idx];document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';setTimeout(function(){if(card){var unit=card.dataset.unit.replace(/&amp;/g,'&');var sel=document.getElementById('f-layanan');for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===unit||sel.options[i].text===unit){sel.selectedIndex=i;break;}}}document.getElementById('f-nama').focus();},120);}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('active');document.body.style.overflow='';pendingIdx=null;}
+document.addEventListener('DOMContentLoaded',function(){document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});});
+function showStep1(){document.getElementById('step1Form').style.display='block';document.getElementById('step2Links').style.display='none';document.getElementById('mstep1').className='mstep active';document.getElementById('mstep2').className='mstep';document.querySelectorAll('.form-group').forEach(function(g){g.classList.remove('has-error');});}
+function validate(){var ok=true;var checks=[{id:'f-nama',err:'err-nama',grp:'fg-nama',msg:'Nama wajib diisi'},{id:'f-instansi',err:'err-instansi',grp:'fg-instansi',msg:'Instansi wajib diisi'},{id:'f-hp',err:'err-hp',grp:'fg-hp',msg:'Kontak wajib diisi'},{id:'f-layanan',err:'err-layanan',grp:'fg-layanan',msg:'Pilih unit layanan'}];checks.forEach(function(c){var val=document.getElementById(c.id).value.trim();if(!val){document.getElementById(c.grp).classList.add('has-error');document.getElementById(c.err).textContent=c.msg;ok=false;}});return ok;}
+function submitForm(){document.querySelectorAll('.form-group').forEach(function(g){g.classList.remove('has-error');});if(!validate())return;var btn=document.getElementById('btnSubmit');var txt=document.getElementById('btnText');var spin=document.getElementById('spinner');btn.disabled=true;txt.textContent='Mengirim...';spin.style.display='block';var fd=new FormData();fd.append(F.nama,document.getElementById('f-nama').value.trim());fd.append(F.instansi,document.getElementById('f-instansi').value.trim());fd.append(F.jabatan,document.getElementById('f-jabatan').value.trim());fd.append(F.hp,document.getElementById('f-hp').value.trim());fd.append(F.layanan,document.getElementById('f-layanan').value);fd.append(F.keperluan,document.getElementById('f-keperluan').value.trim());fetch(FORM_ACTION,{method:'POST',mode:'no-cors',body:fd}).then(onSuccess).catch(onSuccess);}
+function onSuccess(){var now=new Date();var hrs=(new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59)-now)/3600000;setCookie('lkpp_hadir_done','1',hrs);isUnlocked=true;updateGate();renderButtons();var unit=document.getElementById('f-layanan').value;showStep2(unit);var btn=document.getElementById('btnSubmit');btn.disabled=false;document.getElementById('btnText').textContent='Kirim & Buka Akses Layanan';document.getElementById('spinner').style.display='none';}
+function showStep2(unit){document.getElementById('step1Form').style.display='none';document.getElementById('step2Links').style.display='block';document.getElementById('mstep1').className='mstep done';document.getElementById('mstep2').className='mstep active';var cards=document.querySelectorAll('#cardsGrid .card');var match=null;if(pendingIdx!==null){match=cards[pendingIdx];}else{cards.forEach(function(c){if(c.dataset.unit.replace(/&amp;/g,'&')===unit)match=c;});}var zoom=match?match.dataset.zoom:'#';var wa=match?match.dataset.wa:'#';document.getElementById('linkUnitName').textContent=unit||'Unit Layanan';var h='';if(zoom&&zoom!=='#')h+='<a href="'+zoom+'" target="_blank" rel="noopener" class="link-item"><div class="link-item-icon li-zoom">&#x1F3A5;</div><div><span class="link-item-label">Zoom Meeting</span><span class="link-item-sub">Klik untuk bergabung ke sesi</span></div><span class="link-item-arrow">&rarr;</span></a>';if(wa&&wa!=='#')h+='<a href="'+wa+'" target="_blank" rel="noopener" class="link-item"><div class="link-item-icon li-wa">&#x1F4AC;</div><div><span class="link-item-label">WhatsApp</span><span class="link-item-sub">Klik untuk membuka WhatsApp</span></div><span class="link-item-arrow">&rarr;</span></a>';if(!h)h='<p style="font-size:13px;color:var(--text-muted);padding:12px 0;">Tautan akan segera tersedia. Hubungi PIC atau helpdesk@lkpp.go.id</p>';document.getElementById('linkList').innerHTML=h;}
+var cat='semua',q='';
+function filter(c,btn){cat=c;document.querySelectorAll('.ftab').forEach(function(t){t.classList.remove('on');});btn.classList.add('on');applyFilter();}
+function searchCards(){q=document.getElementById('searchInput').value.toLowerCase();applyFilter();}
+function applyFilter(){document.querySelectorAll('#cardsGrid .card').forEach(function(card){var catOk=cat==='semua'||card.dataset.cat===cat;var kw=(card.dataset.kw||'')+' '+(card.querySelector('h3')?card.querySelector('h3').textContent:'');var kwOk=!q||kw.toLowerCase().indexOf(q)!==-1;card.style.display=(catOk&&kwOk)?'':'none';});}
+function toggleFaq(btn){var item=btn.closest('.faq-item');var wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-q').setAttribute('aria-expanded','false');});if(!wasOpen){item.classList.add('open');btn.setAttribute('aria-expanded','true');}}
+var io=new IntersectionObserver(function(entries){entries.forEach(function(e,i){if(e.isIntersecting){setTimeout(function(){e.target.classList.add('vis');},i*50);io.unobserve(e.target);}});},{threshold:0.06});
+document.querySelectorAll('.fade-up').forEach(function(el){io.observe(el);});
+checkUnlock();
+</script>
+</body>
+</html>
