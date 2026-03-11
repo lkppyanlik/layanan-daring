@@ -438,7 +438,10 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
     <div class="gate-notice" id="gateNotice">
       <span class="gate-notice-icon">&#x1F512;</span>
       <span id="gateText">Tautan Teams dan WhatsApp terkunci. Registrasi antrian terlebih dahulu untuk membuka akses.</span>
-      <button class="gate-btn" onclick="openModal(event)">&#x1F4CB; Registrasi Antrian</button>
+      <div style="display:flex;gap:8px;flex-shrink:0;margin-left:auto;">
+        <button class="gate-btn" style="background:transparent;color:var(--blue);border:1.5px solid var(--blue);" onclick="doUnlock()">&#x2705; Sudah Daftar</button>
+        <button class="gate-btn" onclick="openModal(event)">&#x1F4CB; Registrasi Antrian</button>
+      </div>
     </div>
 
     <div class="toolbar">
@@ -752,13 +755,13 @@ function setCookie(n,v,h){var d=new Date();d.setTime(d.getTime()+h*3600000);docu
 function getCookie(n){var v=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return v?v.pop():null;}
 var isUnlocked=false,pendingIdx=null;
 function checkUnlock(){if(getCookie('lkpp_hadir_done')==='1'){isUnlocked=true;updateGate();}renderButtons();}
-function updateGate(){var n=document.getElementById('gateNotice');if(!n)return;var t=document.getElementById('gateText');var b=n.querySelector('.gate-btn');if(isUnlocked){n.classList.add('unlocked');t.textContent='Registrasi tercatat. Seluruh tautan Teams dan WhatsApp telah terbuka.';if(b)b.style.display='none';}}
+function updateGate(){var n=document.getElementById('gateNotice');if(!n)return;var t=document.getElementById('gateText');if(isUnlocked){n.classList.add('unlocked');t.textContent='Registrasi tercatat. Seluruh tautan Teams dan WhatsApp telah terbuka.';n.querySelectorAll('.gate-btn,button').forEach(function(b){b.style.display='none';});}}
 function renderButtons(){var cards=document.querySelectorAll('#cardsGrid .card');cards.forEach(function(card,i){var row=document.getElementById('btnRow-'+i);if(!row)return;var teams=card.dataset.teams||'#';var wa=card.dataset.wa||'#';var hasTeams=teams!=='#'&&teams.indexOf('PLACEHOLDER')===-1;var hasWa=wa!=='#'&&wa.indexOf('PLACEHOLDER')===-1;if(isUnlocked){var h='';if(hasTeams){h+='<a href="'+teams+'" target="_blank" rel="noopener" class="btn-sm bs-blue">&#x1F4BB; Teams</a>';}else{h+='<span class="btn-sm bs-disabled" title="Belum tersedia">&#x1F4BB; Teams</span>';}if(hasWa){h+='<a href="'+wa+'" target="_blank" rel="noopener" class="btn-sm bs-wa">&#x1F4AC; WA</a>';}else{h+='<span class="btn-sm bs-disabled" title="Belum tersedia">&#x1F4AC; WA</span>';}row.innerHTML=h;}else{row.innerHTML='<button class="btn-sm bs-ghost" onclick="openFromCard('+i+')">&#x1F512; Registrasi dulu</button>';}});}
 function openModal(e){if(e)e.preventDefault();pendingIdx=null;showStep1();document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';}
 function openFromCard(idx){pendingIdx=idx;showStep1();document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';}
 function closeModal(){document.getElementById('modalOverlay').classList.remove('active');document.body.style.overflow='';pendingIdx=null;}
 function onFormOpened(){document.getElementById('btnOpenForm').style.display='none';document.getElementById('btnConfirm').style.display='flex';}
-function onConfirmDone(){var now=new Date();var hrs=(new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59)-now)/3600000;setCookie('lkpp_hadir_done','1',hrs);isUnlocked=true;updateGate();renderButtons();showStep2();}
+function doUnlock(){var now=new Date();var hrs=(new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59)-now)/3600000;setCookie('lkpp_hadir_done','1',hrs);isUnlocked=true;updateGate();renderButtons();}function onConfirmDone(){doUnlock();showStep2();}
 document.addEventListener('DOMContentLoaded',function(){document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});});
 function showStep2(){document.getElementById('step1Form').style.display='none';document.getElementById('step2Links').style.display='block';document.getElementById('mstep1').className='mstep done';document.getElementById('mstep2').className='mstep active';var cards=document.querySelectorAll('#cardsGrid .card');var match=null;if(pendingIdx!==null){match=cards[pendingIdx];}var teams=match?match.dataset.teams:'#';var wa=match?match.dataset.wa:'#';var unitName=match?match.dataset.unit.replace(/&amp;/g,'&'):'Unit Layanan';document.getElementById('linkUnitName').textContent=unitName;var h='';if(teams&&teams!=='#')h+='<a href="'+teams+'" target="_blank" rel="noopener" class="link-item"><div class="link-item-icon li-teams">&#x1F4BB;</div><div><span class="link-item-label">Microsoft Teams</span><span class="link-item-sub">Klik untuk bergabung ke sesi</span></div><span class="link-item-arrow">&rarr;</span></a>';if(wa&&wa!=='#')h+='<a href="'+wa+'" target="_blank" rel="noopener" class="link-item"><div class="link-item-icon li-wa">&#x1F4AC;</div><div><span class="link-item-label">WhatsApp</span><span class="link-item-sub">Klik untuk membuka WhatsApp</span></div><span class="link-item-arrow">&rarr;</span></a>';if(!h)h='<p style="font-size:13px;color:var(--text-muted);padding:12px 0;">Tautan akan segera tersedia. Hubungi PIC </p>';document.getElementById('linkList').innerHTML=h;}
 var cat='semua',q='';
