@@ -137,6 +137,18 @@ nav a:hover{background:var(--blue-light);color:var(--blue);}
 .bs-disabled{background:transparent;color:var(--text-muted);border:1.5px solid var(--line);cursor:default;opacity:0.45;pointer-events:none;}
 .bs-ghost:hover{background:var(--blue-light);}
 
+
+/* WA Multi dropdown */
+.wa-dropdown{position:relative;display:inline-block;}
+.wa-dropdown-menu{display:none;position:absolute;bottom:calc(100% + 6px);right:0;background:var(--white);border:1.5px solid var(--line);border-radius:var(--radius-md);box-shadow:var(--shadow-md);min-width:270px;z-index:50;overflow:hidden;}
+.wa-dropdown-menu.open{display:block;}
+.wa-dropdown-header{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);padding:10px 14px 6px;}
+.wa-dropdown-item{display:flex;align-items:center;gap:10px;padding:9px 14px;text-decoration:none;transition:background .15s;border-top:1px solid var(--line-lt);}
+.wa-dropdown-item:hover{background:var(--bg);}
+.wa-dropdown-item-icon{width:28px;height:28px;border-radius:6px;background:#D6F0E4;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.wa-dropdown-item-name{font-size:12.5px;font-weight:600;color:var(--text-primary);line-height:1.2;}
+.wa-dropdown-item-sub{font-size:11px;color:var(--text-muted);}
+
 /* GATE NOTICE */
 .gate-notice{background:var(--blue-light);border:1px solid var(--blue-border);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:24px;display:flex;align-items:center;gap:14px;font-size:13.5px;color:var(--blue);font-weight:500;}
 .gate-notice.unlocked{background:#D6F0E4;border-color:#A3D9BC;color:var(--green);}
@@ -627,7 +639,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
         <div class="card-foot"><div><div class="pic-label">PIC Layanan</div><div class="pic-name">[Nama PIC]</div><div class="pic-contact">[Nomor Kontak]</div></div><div class="btn-row" id="btnRow-10"></div></div>
       </article>
 
-      <article class="card fade-up" data-cat="advokasi" data-kw="hukum permasalahan sengketa keterangan ahli penyelesaian PKA kontrak" data-unit="Dit. Penanganan Permasalahan Hukum" data-teams="#" data-wa="https://wa.me/6283890294556">
+      <article class="card fade-up" data-cat="advokasi" data-kw="hukum permasalahan sengketa keterangan ahli penyelesaian PKA kontrak" data-unit="Dit. Penanganan Permasalahan Hukum" data-teams="#" data-wa="multi" data-multi-wa='[{"nama": "Isfa Aulia Urrachmah", "layanan": "Koordinator Layanan", "wa": "https://wa.me/6283890294556"}, {"nama": "Siti Horiah", "layanan": "Layanan Probity Advice", "wa": "https://wa.me/6287801660279"}, {"nama": "Safira Rachmadewi", "layanan": "Layanan Penyelesaian Sengketa Kontrak PBJP", "wa": "https://wa.me/6281282241079"}, {"nama": "Putri Triyandini", "layanan": "Layanan Pemberian Rekomendasi Pendapat", "wa": "https://wa.me/6281212486809"}, {"nama": "Moch. Ilham Riswanda", "layanan": "Layanan Pengaduan", "wa": "https://wa.me/6281249482860"}, {"nama": "Rahmalita Fadhila", "layanan": "Layanan Pemberian Keterangan Ahli", "wa": "https://wa.me/6285697775860"}]'>
         <div class="stripe stripe-lt"></div>
         <div class="card-body">
           <div class="card-head"><div class="card-icon">&#x1F4C1;</div><div><div class="card-cat">Permasalahan Hukum</div><h3>Dit. Penanganan Permasalahan Hukum</h3></div></div>
@@ -754,9 +766,11 @@ function showStep1(){document.getElementById('step1Form').style.display='block';
 function setCookie(n,v,h){var d=new Date();d.setTime(d.getTime()+h*3600000);document.cookie=n+'='+v+';expires='+d.toUTCString()+';path=/;SameSite=Strict';}
 function getCookie(n){var v=document.cookie.match('(^|;)\\s*'+n+'\\s*=\\s*([^;]+)');return v?v.pop():null;}
 var isUnlocked=false,pendingIdx=null;
+function toggleWaDrop(e,id){e.stopPropagation();var m=document.getElementById(id);document.querySelectorAll('.wa-dropdown-menu.open').forEach(function(x){if(x.id!==id)x.classList.remove('open');});m.classList.toggle('open');}
+document.addEventListener('click',function(){document.querySelectorAll('.wa-dropdown-menu.open').forEach(function(x){x.classList.remove('open');});});
 function checkUnlock(){if(getCookie('lkpp_hadir_done')==='1'){isUnlocked=true;updateGate();}renderButtons();}
 function updateGate(){var n=document.getElementById('gateNotice');if(!n)return;var t=document.getElementById('gateText');if(isUnlocked){n.classList.add('unlocked');t.textContent='Registrasi tercatat. Seluruh tautan Teams dan WhatsApp telah terbuka.';n.querySelectorAll('.gate-btn,button').forEach(function(b){b.style.display='none';});}}
-function renderButtons(){var cards=document.querySelectorAll('#cardsGrid .card');cards.forEach(function(card,i){var row=document.getElementById('btnRow-'+i);if(!row)return;var teams=card.dataset.teams||'#';var wa=card.dataset.wa||'#';var hasTeams=teams!=='#'&&teams.indexOf('PLACEHOLDER')===-1;var hasWa=wa!=='#'&&wa.indexOf('PLACEHOLDER')===-1;if(isUnlocked){var h='';if(hasTeams){h+='<a href="'+teams+'" target="_blank" rel="noopener" class="btn-sm bs-blue">&#x1F4BB; Teams</a>';}else{h+='<span class="btn-sm bs-disabled" title="Belum tersedia">&#x1F4BB; Teams</span>';}if(hasWa){h+='<a href="'+wa+'" target="_blank" rel="noopener" class="btn-sm bs-wa">&#x1F4AC; WA</a>';}else{h+='<span class="btn-sm bs-disabled" title="Belum tersedia">&#x1F4AC; WA</span>';}row.innerHTML=h;}else{row.innerHTML='<button class="btn-sm bs-ghost" onclick="openFromCard('+i+')">&#x1F512; Registrasi dulu</button>';}});}
+function renderButtons(){var cards=document.querySelectorAll('#cardsGrid .card');cards.forEach(function(card,i){var row=document.getElementById('btnRow-'+i);if(!row)return;var teams=card.dataset.teams||'#';var wa=card.dataset.wa||'#';var hasTeams=teams!=='#'&&teams.indexOf('PLACEHOLDER')===-1;var hasWa=wa!=='#'&&wa.indexOf('PLACEHOLDER')===-1;if(isUnlocked){var h='';if(hasTeams){h+='<a href="'+teams+'" target="_blank" rel="noopener" class="btn-sm bs-blue">&#x1F4BB; Teams</a>';}else{h+='<span class="btn-sm bs-disabled" title="Belum tersedia">&#x1F4BB; Teams</span>';}if(wa==='multi'){var mw=[];try{mw=JSON.parse(card.dataset.multiWa||'[]');}catch(e){}var did='waDrop'+i;h+='<div class="wa-dropdown"><button class="btn-sm bs-wa" onclick="toggleWaDrop(event,\''+did+'\')">&#x1F4AC; WA &#x25BE;</button><div class="wa-dropdown-menu" id="'+did+'"><div class="wa-dropdown-header">Pilih Layanan</div>';mw.forEach(function(p){h+='<a href="'+p.wa+'" target="_blank" rel="noopener" class="wa-dropdown-item"><div class="wa-dropdown-item-icon">&#x1F4AC;</div><div><div class="wa-dropdown-item-name">'+p.nama+'</div><div class="wa-dropdown-item-sub">'+p.layanan+'</div></div></a>';});h+='</div></div>';}else if(hasWa){h+='<a href="'+wa+'" target="_blank" rel="noopener" class="btn-sm bs-wa">&#x1F4AC; WA</a>';}else{h+='<span class="btn-sm bs-disabled" title="Belum tersedia">&#x1F4AC; WA</span>';}row.innerHTML=h;}else{row.innerHTML='<button class="btn-sm bs-ghost" onclick="openFromCard('+i+')">&#x1F512; Registrasi dulu</button>';}});}
 function openModal(e){if(e)e.preventDefault();pendingIdx=null;showStep1();document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';}
 function openFromCard(idx){pendingIdx=idx;showStep1();document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';}
 function closeModal(){document.getElementById('modalOverlay').classList.remove('active');document.body.style.overflow='';pendingIdx=null;}
