@@ -823,25 +823,52 @@ checkUnlock();
 
 // ── TIME GATE ──────────────────────────────────────────────
 (function() {
-  var OPEN_H = 9, OPEN_M = 0;    // 09:00
-  var CLOSE_H = 14, CLOSE_M = 0; // 14:00
+  var OPEN_H  = 9,  OPEN_M  = 0;  // 09:00 WIB
+  var CLOSE_H = 14, CLOSE_M = 0;  // 14:00 WIB
+
+  // Tanggal operasional (WIB)
+  var ACTIVE_DATES = ['2026-03-16','2026-03-17','2026-03-25','2026-03-26','2026-03-27'];
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
   function getWIBDate() {
-    // WIB = UTC+7
     var now = new Date();
     var utc = now.getTime() + now.getTimezoneOffset() * 60000;
     return new Date(utc + 7 * 3600000);
   }
 
+  function toDateStr(d) {
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+
+  function isActiveDate(d) {
+    return ACTIVE_DATES.indexOf(toDateStr(d)) !== -1;
+  }
+
   function isOpen(d) {
-    var h = d.getHours(), m = d.getMinutes();
-    var minNow   = h * 60 + m;
+    if (!isActiveDate(d)) return false;
+    var minNow   = d.getHours() * 60 + d.getMinutes();
     var minOpen  = OPEN_H * 60 + OPEN_M;
     var minClose = CLOSE_H * 60 + CLOSE_M;
     return minNow >= minOpen && minNow < minClose;
   }
 
-  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  // Cari tanggal aktif berikutnya dari list
+  function nextActiveDate(d) {
+    var today = toDateStr(d);
+    for (var i = 0; i < ACTIVE_DATES.length; i++) {
+      if (ACTIVE_DATES[i] >= today) return ACTIVE_DATES[i];
+    }
+    return null;
+  }
+
+  function formatDateID(str) {
+    // '2026-03-16' → '16 Maret 2026'
+    var parts = str.split('-');
+    var months = ['','Januari','Februari','Maret','April','Mei','Juni',
+                  'Juli','Agustus','September','Oktober','November','Desember'];
+    return parseInt(parts[2]) + ' ' + months[parseInt(parts[1])] + ' ' + parts[0];
+  }
 
   function updateClock() {
     var d = getWIBDate();
@@ -849,38 +876,62 @@ checkUnlock();
     var el = document.getElementById('tgCurrentTime');
     if (el) el.textContent = timeStr;
 
-    var gate = document.getElementById('timeGate');
+    var gate  = document.getElementById('timeGate');
     if (!gate) return;
 
     if (isOpen(d)) {
       gate.classList.remove('show');
       document.body.style.overflow = '';
+      return;
+    }
+
+    // Portal tertutup — tentukan pesan
+    gate.classList.add('show');
+    document.body.style.overflow = 'hidden';
+
+    var icon  = document.getElementById('tgIcon');
+    var title = document.getElementById('tgTitle');
+    var msg   = document.getElementById('tgMsg');
+    var badge = document.querySelector('.tg-badge');
+
+    var today    = toDateStr(d);
+    var isActive = isActiveDate(d);
+    var next     = nextActiveDate(d);
+    var minNow   = d.getHours() * 60 + d.getMinutes();
+    var minOpen  = OPEN_H * 60 + OPEN_M;
+    var minClose = CLOSE_H * 60 + CLOSE_M;
+    var afterClose = isActive && minNow >= minClose;
+    var beforeOpen = isActive && minNow < minOpen;
+
+    if (badge) badge.textContent = '🗓 Operasional: 16, 17, 25, 26, 27 Maret 2026 • 09.00–14.00 WIB';
+
+    if (beforeOpen) {
+      // Hari aktif tapi belum jam buka
+      if (icon)  icon.textContent  = '🕗';
+      if (title) title.textContent = 'Portal Belum Dibuka';
+      if (msg)   msg.textContent   = 'Hari ini adalah hari layanan. Portal akan dibuka pukul 09.00 WIB.';
+    } else if (afterClose) {
+      // Hari aktif tapi sudah lewat jam tutup
+      var nextIdx = ACTIVE_DATES.indexOf(today) + 1;
+      var nextDay = nextIdx < ACTIVE_DATES.length ? ACTIVE_DATES[nextIdx] : null;
+      if (icon)  icon.textContent  = '🕑';
+      if (title) title.textContent = 'Jam Layanan Telah Berakhir';
+      if (msg)   msg.textContent   = nextDay
+        ? 'Layanan hari ini telah selesai. Sesi berikutnya: ' + formatDateID(nextDay) + ' pukul 09.00 WIB.'
+        : 'Seluruh sesi layanan daring telah selesai. Terima kasih telah menggunakan layanan LKPP.';
+    } else if (next && next > today) {
+      // Bukan hari aktif, masih ada sesi ke depan
+      if (icon)  icon.textContent  = '📅';
+      if (title) title.textContent = 'Di Luar Jadwal Operasional';
+      if (msg)   msg.textContent   = 'Portal hanya aktif pada tanggal-tanggal tertentu. Sesi berikutnya: ' + formatDateID(next) + ' pukul 09.00–14.00 WIB.';
     } else {
-      gate.classList.add('show');
-      document.body.style.overflow = 'hidden';
-
-      var h = d.getHours(), m = d.getMinutes();
-      var minNow = h * 60 + m;
-      var minOpen = OPEN_H * 60 + OPEN_M;
-      var isBefore = minNow < minOpen;
-
-      var icon  = document.getElementById('tgIcon');
-      var title = document.getElementById('tgTitle');
-      var msg   = document.getElementById('tgMsg');
-
-      if (isBefore) {
-        if (icon)  icon.textContent  = '🕗';
-        if (title) title.textContent = 'Portal Belum Dibuka';
-        if (msg)   msg.textContent   = 'Layanan Publik Daring LKPP belum dimulai. Portal akan dibuka pukul 09.00 WIB.';
-      } else {
-        if (icon)  icon.textContent  = '🕑';
-        if (title) title.textContent = 'Jam Layanan Telah Berakhir';
-        if (msg)   msg.textContent   = 'Jam layanan hari ini telah selesai. Silakan kembali besok mulai pukul 09.00 WIB.';
-      }
+      // Semua sesi sudah lewat
+      if (icon)  icon.textContent  = '✅';
+      if (title) title.textContent = 'Layanan Daring Telah Selesai';
+      if (msg)   msg.textContent   = 'Seluruh sesi Layanan Publik Daring LKPP telah selesai dilaksanakan. Terima kasih.';
     }
   }
 
-  // Run immediately, then every second
   updateClock();
   setInterval(updateClock, 1000);
 })();
