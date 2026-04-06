@@ -745,7 +745,7 @@ footer{background:var(--text-primary);padding:52px 48px 24px;}
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Apakah layanan tatap muka tersedia selama periode ini?<span class="faq-icon">+</span></button>
-        <div class="faq-a">Tidak. Selama periode penyesuaian tugas kedinasan (16&ndash;17 dan 25&ndash;27 Maret 2026), seluruh layanan publik LKPP diselenggarakan secara daring. Layanan tatap muka kembali normal sesuai jadwal reguler LKPP.</div>
+        <div class="faq-a">Tidak. Selama periode ini, layanan publik LKPP diselenggarakan secara daring setiap hari Jumat. Layanan tatap muka kembali normal sesuai jadwal reguler LKPP.</div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Berapa jam layanan daring tersedia?<span class="faq-icon">+</span></button>
@@ -826,8 +826,7 @@ checkUnlock();
   var OPEN_H  = 9,  OPEN_M  = 0;  // 09:00 WIB
   var CLOSE_H = 14, CLOSE_M = 0;  // 14:00 WIB
 
-  // Tanggal operasional (WIB)
-  var ACTIVE_DATES = ['2026-03-16','2026-03-17','2026-03-25','2026-03-26','2026-03-27'];
+  // Hari operasional: setiap hari Jumat (getDay() === 5)
 
   function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
@@ -842,7 +841,7 @@ checkUnlock();
   }
 
   function isActiveDate(d) {
-    return ACTIVE_DATES.indexOf(toDateStr(d)) !== -1;
+    return d.getDay() === 5; // 5 = Jumat
   }
 
   function isOpen(d) {
@@ -853,11 +852,14 @@ checkUnlock();
     return minNow >= minOpen && minNow < minClose;
   }
 
-  // Cari tanggal aktif berikutnya dari list
+  // Cari Jumat berikutnya
   function nextActiveDate(d) {
-    var today = toDateStr(d);
-    for (var i = 0; i < ACTIVE_DATES.length; i++) {
-      if (ACTIVE_DATES[i] >= today) return ACTIVE_DATES[i];
+    var next = new Date(d.getTime());
+    // Mulai dari besok jika hari ini sudah lewat jam tutup atau bukan Jumat
+    next.setDate(next.getDate() + 1);
+    for (var i = 0; i < 7; i++) {
+      if (next.getDay() === 5) return toDateStr(next);
+      next.setDate(next.getDate() + 1);
     }
     return null;
   }
@@ -903,7 +905,7 @@ checkUnlock();
     var afterClose = isActive && minNow >= minClose;
     var beforeOpen = isActive && minNow < minOpen;
 
-    if (badge) badge.textContent = '🗓 Operasional: 16, 17, 25, 26, 27 Maret 2026 • 09.00–14.00 WIB';
+    if (badge) badge.textContent = '🗓 Operasional: Setiap Hari Jumat • 09.00–14.00 WIB';
 
     if (beforeOpen) {
       // Hari aktif tapi belum jam buka
@@ -912,23 +914,22 @@ checkUnlock();
       if (msg)   msg.textContent   = 'Hari ini adalah hari layanan. Portal akan dibuka pukul 09.00 WIB.';
     } else if (afterClose) {
       // Hari aktif tapi sudah lewat jam tutup
-      var nextIdx = ACTIVE_DATES.indexOf(today) + 1;
-      var nextDay = nextIdx < ACTIVE_DATES.length ? ACTIVE_DATES[nextIdx] : null;
+      var nextDay = nextActiveDate(d);
       if (icon)  icon.textContent  = '🕑';
       if (title) title.textContent = 'Jam Layanan Telah Berakhir';
       if (msg)   msg.textContent   = nextDay
         ? 'Layanan hari ini telah selesai. Sesi berikutnya: ' + formatDateID(nextDay) + ' pukul 09.00 WIB.'
-        : 'Seluruh sesi layanan daring telah selesai. Terima kasih telah menggunakan layanan LKPP.';
+        : 'Layanan hari ini telah selesai. Sesi berikutnya akan dibuka Jumat depan pukul 09.00 WIB.';
     } else if (next && next > today) {
       // Bukan hari aktif, masih ada sesi ke depan
       if (icon)  icon.textContent  = '📅';
       if (title) title.textContent = 'Di Luar Jadwal Operasional';
-      if (msg)   msg.textContent   = 'Portal hanya aktif pada tanggal-tanggal tertentu. Sesi berikutnya: ' + formatDateID(next) + ' pukul 09.00–14.00 WIB.';
+      if (msg)   msg.textContent   = 'Portal hanya aktif setiap hari Jumat. Sesi berikutnya: ' + formatDateID(next) + ' pukul 09.00–14.00 WIB.';
     } else {
       // Semua sesi sudah lewat
-      if (icon)  icon.textContent  = '✅';
-      if (title) title.textContent = 'Layanan Daring Telah Selesai';
-      if (msg)   msg.textContent   = 'Seluruh sesi Layanan Publik Daring LKPP telah selesai dilaksanakan. Terima kasih.';
+      if (icon)  icon.textContent  = '📅';
+      if (title) title.textContent = 'Di Luar Jadwal Operasional';
+      if (msg)   msg.textContent   = 'Portal hanya aktif setiap hari Jumat pukul 09.00–14.00 WIB. Silakan kembali pada hari Jumat.';
     }
   }
 
